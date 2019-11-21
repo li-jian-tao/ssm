@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace命名空间，指向UserDao全路径 -->
+<mapper namespace="com.briup.dao.ArticleDao">
+
+    <!-- Article findByCategoryId(Integer cid); -->
+    <select id="findByCategoryId" parameterType="java.lang.Integer" resultMap="rm">
+        select "article"."id","title","clickTimes","nickname"
+        from "article","user" 
+        where "user"."id"="article"."user_id" and 
+        "category_id"=#{cid}
+    </select>
+    <resultMap type="com.briup.bean.Article" id="rm">
+        <id column="id" property="id" />
+        <result column="title" property="title" />
+        <result column="clickTimes" property="clickTimes" />
+        <result column="nickname" property="user.nickname"/>
+    </resultMap>
+    
+    <!-- List<Article> findByArticleTitle(String title); -->
+    <select id="findByArticleTitle" parameterType="java.lang.String"
+            resultMap="erm">
+        select "article"."id","title","clickTimes","nickname"
+        from "article","user" 
+        where "user"."id"="article"."user_id" and "title" like '%'||#{title}||'%'
+    </select>
+    <resultMap type="com.briup.bean.Article" id="erm">
+        <id column="id" property="id" />
+        <result column="title" property="title" />
+        <result column="clickTimes" property="clickTimes" />
+        <result column="nickname" property="user.nickname"/>
+    </resultMap>
+    
+    <!-- List<Article> findByArticleAuthor(String nickname); -->
+    <select id="findByArticleAuthor" parameterType="java.lang.String"
+            resultMap="frm">
+        select "article"."id","title","clickTimes","nickname"
+        from "article","user" 
+        where "user"."id"="article"."user_id" and "user"."nickname" like '%'||#{nickname}||'%'
+    </select>
+    <resultMap type="com.briup.bean.Article" id="frm">
+        <id column="id" property="id" />
+        <result column="title" property="title" />
+        <result column="clickTimes" property="clickTimes" />
+        <result column="nickname" property="user.nickname"/>
+    </resultMap>
+    
+    <!-- Article findByArticle(Integer id); -->
+    <select id="findByArticle" parameterType="java.lang.Integer"
+            resultMap="grm">
+        select "article"."id","title","summary","content","clickTimes","releaseDate","state","nickname","category_id"
+        from "article","user" 
+        where "user"."id"="article"."user_id" 
+            and "article"."id"=#{id}
+    </select>
+    <resultMap type="com.briup.bean.Article" id="grm">
+        <id column="id" property="id" />
+        <result column="title" property="title" />
+        <result column="summary" property="summary" />
+        <result column="content" property="content" />
+        <result column="clickTimes" property="clickTimes" />
+        <result column="releaseDate" property="releaseDate" />
+        <result column="state" property="state" />
+        <result column="category_id" property="category.id" />      
+        <result column="nickname" property="user.nickname"/>
+    </resultMap>
+    
+    <!-- List<Article> findByUserId(Integer uid); -->
+    <select id="findByUserId" parameterType="java.lang.Integer" 
+            resultType="com.briup.bean.Article">
+        select "id","title","summary","releaseDate","state" 
+        from "article" 
+        where "user_id"=#{uid}      
+    </select>
+    
+    <!-- void addByArticle(Article article); -->
+    <insert id="addByArticle" parameterType="Article">
+        <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+            select article_sequence.nextval from dual
+        </selectKey>
+        insert into "article"("id","title","summary","content","releaseDate","clickTimes","user_id","category_id")
+        values(#{id},#{title},#{summary},#{content},#{releaseDate},#{clickTimes},#{user.id},#{category.id})
+    </insert>
+    
+    <!-- void updateByClickTimes(Integer times); -->
+    <update id="updateByClickTimes" parameterType="java.lang.Integer">
+        update "article" 
+        set "clickTimes" = #{times} 
+        where "id" = #{id}
+    </update>
+    
+    
+</mapper>

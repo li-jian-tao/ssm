@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace命名空间，指向UserDao全路径 -->
+<mapper namespace="com.briup.dao.UserLikeDao">
+    <!-- UserLike findByUserLike(Integer uid,Integer aid); -->
+    <select id="findByUserLike" parameterType="java.lang.Integer"
+        resultType="UserLike">
+        select * 
+        from "user_like" 
+        where "user_id"=#{uid} and "article_id"=#{aid}
+    </select>
+
+    <!-- void addUserLike(UserLike userLike); -->
+    <insert id="addUserLike" parameterType="UserLike">
+       <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+           select like_sequence.nextval from dual
+       </selectKey>
+       insert into "user_like"("id","like_date","state","user_id","article_id")
+       values(#{id},#{likeDate},#{state},#{user.id},#{article.id})
+    </insert>
+    
+    <!-- void updateUserLike(UserLike userlike); -->
+    <update id="updateUserLike" parameterType="UserLike">
+        update "user_like" 
+        set "like_date"=#{likeDate},"state"=#{state} 
+        where "user_id"=#{user.id} and "article_id"=#{article.id} 
+    </update>
+    
+</mapper>

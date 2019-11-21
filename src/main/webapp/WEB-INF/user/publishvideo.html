@@ -1,0 +1,212 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Home</title>
+<link href="../css/font-awesome.min.css" rel="stylesheet">
+<link href="../css/bootstrap.min.css" rel="stylesheet">
+<link href="../css/templatemo-style.css" rel="stylesheet">
+<link rel="stylesheet" href="../css/iconFont/iconfont.css">
+<script src="../js/jquery-1.11.0.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../js/bootsnav.js"></script>
+
+<script type="text/javascript">
+	function colserelese() {
+		location.href = "myrelease.html";
+
+	}
+</script>
+<script type="text/javascript" src="../js/wangEditor.js"></script>
+
+<script type="text/javascript">
+	$(function() {
+
+		var E = window.wangEditor;
+		var editor = new E('#editor');
+		//创建编辑器
+		editor.create();
+
+	});
+</script>
+<style>
+.MyInformation .AccessTwo {
+	background-color: #16a3b9;
+	width: 50px;
+	height: 30px;
+	margin-left: 24em;
+	border-radius: 3px;
+	padding-left: 8px;
+	line-height: 30px;
+}
+
+.MyInformation .AccessTwo a {
+	color: white;
+}
+
+.MyInformation {
+	width: 60%;
+	margin: 1em auto;
+}
+</style>
+
+</head>
+<body>
+	<!-- Left column -->
+	<div class="templatemo-flex-row" style="height: 750px;">
+		<div class="templatemo-sidebar">
+			<div class="templatemo-site-header ">
+
+				<h2 style="color: #fff;" data-toggle="modal" data-target="#myModal"
+					onclick="modelShow()">
+					<i class="fa fa-user fa-fw"></i> Admin
+				</h2>
+			</div>
+			<div class="profile-photo-container">
+				<img src="../images/profile-photo.jpg" alt="Profile Photo"
+					class="img-responsive">
+
+			</div>
+
+
+
+			<div class="templatemo-left-nav">
+				<ul>
+
+					<li class="title "><i class="fa fa-home fa-fw "></i><a
+						href="index.html">主页</a></li>
+					<li class="title"><i class="fa fa-bookmark fa-fw"></i><a
+						href="hotArticle.html">热门文章</a></li>
+					<li class="title "><i class="fa fa-bars fa-fw"></i><a
+						href="sectionManger.html">资讯栏目</a></li>
+					<li class="title active "><i class="fa fa-cog fa-fw"></i>个人管理</li>
+					<li class="title"><i class="fa fa-sign-out fa-fw"></i><a
+						href="../login.html">退出系统</a></li>
+
+
+				</ul>
+			</div>
+		</div>
+
+		<!-- Main content -->
+		<div class="templatemo-content col-1 white-bg">
+
+			<!-- Main content -->
+			<div class=" col-1 light-gray-bg">
+				<div class="templatemo-top-nav-container">
+					<div class="row">
+						<nav class="templatemo-top-nav col-lg-12 col-md-12">
+							<ul class="text-uppercase">
+								<li class=" secondTitle"><a href="usermanger.html">个人信息</a></li>
+								<li class="active secondTitle">我的发布</li>
+								<li class="secondTitle"><a href="browshistory.html">浏览记录</a></li>
+								<li class="secondTitle"><a href="mylike.html"> 我的点赞</a></li>
+								<li class="secondTitle"><a href="mycollect.html">我的收藏</a></li>
+								<li class="secondTitle"><a href="myreport.html">我的举报</a></li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+				<div class="templatemo-content-container">
+					<div class="templatemo-content-widget white-red-bg">
+						<h2 style="margin-bottom: 10px; color: #d9534f">
+							视频类型资讯发布
+							<button class="colse_btn" onclick="colserelese()">
+								<i class="fa fa-times-circle fa-lg"></i>
+							</button>
+						</h2>
+						<form action="" class="templatemo-login-form" method="post"
+							enctype="multipart/form-data">
+
+
+							<div class="row form-group">
+								<div class="col-lg-12  form-group">
+									<label class="control-label" for="inputWithSuccess">文章标题</label>
+									<input type="text" class="form-control" id="inputWithSuccess">
+								</div>
+							</div>
+							<div class="row form-group">
+								<div class="col-lg-12  form-group">
+									<label class="control-label" for="inputWithSuccess">文章摘要</label>
+									<input type="text" class="form-control" id="inputWithSuccess">
+								</div>
+							</div>
+							<div class="row form-group">
+								<div class="col-lg-6 col-md-6 form-group">
+									<label class="control-label templatemo-block">文章分类</label> <select
+										class="form-control">
+										<option value="html">饮食健康</option>
+										<option value="plain">运动天地</option>
+									</select>
+								</div>
+								<div class="col-lg-6">
+									<label class="control-label templatemo-block">File
+										Input</label>
+									<!-- <input type="file" name="fileToUpload" id="fileToUpload" class="margin-bottom-10"> -->
+									<input type="file" name="fileToUpload" id="fileToUpload"
+										class="filestyle" data-buttonName="btn-primary"
+										data-buttonBefore="true" data-icon="false">
+								</div>
+							</div>
+
+							<div id="editor"></div>
+							<div class="form-group text-right">
+								<button type="submit" class="templatemo-blue-button">发布</button>
+								<button type="reset" class="templatemo-white-button">清空</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- footer -->
+	<footer class="text-center">
+		<p>Copyright &copy; 2019.briup-看点资讯.Company name All rights
+			reserved.</p>
+	</footer>
+</body>
+<div class="modal" id="myModal">
+	<div class="templatemo-content-widget white-bg col-2 model ">
+		<i class="fa fa-times" onclick="modelHidden()"></i>
+		<div class="media margin-bottom-30">
+			<div class="media-left padding-right-25">
+				<img class="media-object img-circle templatemo-img-bordered"
+					src="images/person.jpg" alt="Sunset">
+
+			</div>
+			<div class="media-body">
+				<h2 class="media-heading text-uppercase blue-text">Account</h2>
+				<p>User Name</p>
+			</div>
+		</div>
+		<div class="table-responsive">
+			<table class="table">
+				<tbody>
+					<tr>
+						<td><div class="circle green-bg"></div></td>
+						<td>gend</td>
+
+					</tr>
+					<tr>
+						<td><div class="circle pink-bg"></div></td>
+						<td>age</td>
+					</tr>
+					<tr>
+						<td><div class="circle blue-bg"></div></td>
+						<td>email</td>
+					</tr>
+					<tr>
+						<td><div class="circle yellow-bg"></div></td>
+						<td>address</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+</html>

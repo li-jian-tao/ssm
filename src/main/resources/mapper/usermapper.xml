@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace命名空间，指向UserDao全路径 -->
+<mapper namespace="com.briup.dao.UserDao">
+
+	<!-- User findByAccount(String Account); -->
+	<select id="findByAccount" parameterType="java.lang.String"
+		resultType="User">
+		select *
+		from "user"
+		where "account" = #{account}
+	</select>
+	
+	<!-- void saveByUser(User user); -->
+	<insert id="saveByUser" parameterType="User">
+	
+	   <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+	       select user_sequence.nextval from dual
+	   </selectKey>
+	   insert into "user"("id","nickname","account","password","image","role")
+	   values(#{id},#{nickname},#{account},#{password},#{image},#{role})
+	
+	</insert>
+	
+	<!-- User updateByAccount(String Account); -->
+	<update id="updateByAccount" parameterType="User">
+	   update "user" 
+	   <set>
+	       <if test="nickname!=null and nickname!=''">
+	           "nickname"=#{nickname},
+	       </if>
+	       <if test="password!=null and password!=''">
+	           "password"=#{password},
+	       </if>
+	       <if test="image!=null and image!=''">
+               "image"=#{image}
+           </if>
+	       where "account"=#{account}
+	   </set>
+	</update>
+	
+	
+</mapper>

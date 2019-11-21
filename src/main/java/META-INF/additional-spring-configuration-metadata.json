@@ -1,0 +1,67 @@
+{"properties": [
+  {
+    "name": "context.listener.classes",
+    "type": "java.lang.String",
+    "description": "A description for 'context.listener.classes'"
+  },
+  {
+    "name": "file.upload-path",
+    "type": "java.lang.String",
+    "description": "A description for 'file.upload-path'"
+  },
+  {
+    "name": "videofile.upload-path",
+    "type": "java.lang.String",
+    "description": "A description for 'videofile.upload-path'"
+  },
+  {
+    "name": "pagehelper.helperDialect",
+    "type": "java.lang.String",
+    "description": "A description for 'pagehelper.helperDialect'"
+  },
+  {
+    "name": "pagehelper.reasonable",
+    "type": "java.lang.String",
+    "description": "A description for 'pagehelper.reasonable'"
+  },
+  {
+    "name": "pagehelper.supportMethodsArguments",
+    "type": "java.lang.String",
+    "description": "A description for 'pagehelper.supportMethodsArguments'"
+  },
+  {
+    "name": "pagehelper.params",
+    "type": "java.lang.String",
+    "description": "A description for 'pagehelper.params'"
+  },
+  {
+    "name": "pagehelper.supportMethodsArguments",
+    "type": "java.lang.String",
+    "description": "A description for 'pagehelper.supportMethodsArguments'"
+  },
+  {
+    "name": "pagehelper.supportMethodsArguments",
+    "type": "java.lang.String",
+    "description": "A description for 'pagehelper.supportMethodsArguments'"
+  },
+  {
+    "name": "pagehelper.supportMethodsArguments",
+    "type": "java.lang.String",
+    "description": "A description for 'pagehelper.supportMethodsArguments'"
+  },
+  {
+    "name": "pagehelper.supportMethodsArguments",
+    "type": "java.lang.String",
+    "description": "A description for 'pagehelper.supportMethodsArguments'"
+  },
+  {
+    "name": "pagehelper.supportMethodsArguments",
+    "type": "java.lang.String",
+    "description": "A description for 'pagehelper.supportMethodsArguments'"
+  },
+  {
+    "name": "pagehelper.supportMethodsArguments",
+    "type": "java.lang.String",
+    "description": "A description for 'pagehelper.supportMethodsArguments'"
+  }
+]}

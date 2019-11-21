@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace命名空间，指向UserDao全路径 -->
+<mapper namespace="com.briup.dao.CategoryDao">
+
+    <!-- Category findByCategory(); -->
+    <select id="findByCategory" resultMap="rm">
+        select c1."id" pid,
+               c1."name" pname,
+               c2."id" cid,
+               c2."name" cname 
+        from "category" c1,"category" c2 
+        where c1."id" = c2."parent_id"
+    </select>
+    <resultMap type="com.briup.bean.Category" id="rm">
+        <id column="pid" property="id" />
+        <result column="pname" property="name" />
+        <collection property="cates"
+            javaType="com.briup.bean.Category">
+            <result column="cid" property="id" />
+            <result column="cname" property="name" />
+        </collection>
+    </resultMap>
+    
+    <!-- List<Category> findByCategorys(); -->
+    <select id="findByCategorys" resultType="Category">
+        select *
+        from "category"
+    </select>
+    
+</mapper>

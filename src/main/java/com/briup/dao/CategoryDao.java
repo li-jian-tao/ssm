@@ -1,0 +1,13 @@
+package com.briup.dao;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import com.briup.bean.Category;
+
+@Mapper
+public interface CategoryDao {
+	List<Category> findByCategory();
+	List<Category> findByCategorys();
+}

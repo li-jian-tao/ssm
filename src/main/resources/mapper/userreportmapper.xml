@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace命名空间，指向UserDao全路径 -->
+<mapper namespace="com.briup.dao.UserReportDao">
+    <!-- UserReport findByUserReport(Integer uid,Integer aid); -->
+    <select id="findByUserReport" parameterType="java.lang.Integer"
+        resultType="UserReport">
+        select * 
+        from "user_report" 
+        where "user_id"=#{uid} and "article_id"=#{aid}
+    </select>
+
+    <!-- void addUserReport(UserReport userReport); -->
+    <insert id="addUserReport" parameterType="UserReport">
+       <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+           select report_sequence.nextval from dual
+       </selectKey>
+       insert into "user_report"("id","report_date","report_type","report_content","state","user_id","article_id")
+       values(#{id},#{reportDate},#{reportType},#{reportContent},#{state},#{user.id},#{article.id})
+    </insert>
+    
+</mapper>
