@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace命名空间，指向UserDao全路径 -->
+<mapper namespace="com.briup.dao.UserCommentDao">
+    <!-- UserComment findByUserComment(Integer id); -->
+    <select id="findByUserComment" parameterType="java.lang.Integer"
+        resultMap="rmf">
+        select "user_comment"."id","comment_date","comment_content","comment_times" 
+        from "user_comment"
+        where "id"=#{id}
+    </select>
+    <resultMap type="com.briup.bean.UserComment" id="rmf">
+        <id column="id" property="id" />
+        <result column="comment_date" property="commentDate" />
+        <result column="comment_content" property="commentContent" />
+        <result column="comment_times" property="commentTimes"/>
+    </resultMap>
+
+    <!-- List<UserComment> allUserComment(Integer aid); -->
+    <select id="allUserComment" parameterType="java.lang.Integer"
+        resultMap="rm">
+        select "user_comment"."id","comment_date","comment_content","comment_times","nickname","image" 
+        from "user_comment","user" 
+        where "user"."id"="user_comment"."user_id" 
+            and "article_id"=#{aid}
+    </select>
+    <resultMap type="com.briup.bean.UserComment" id="rm">
+        <id column="id" property="id" />
+        <result column="comment_date" property="commentDate" />
+        <result column="comment_content" property="commentContent" />
+        <result column="comment_times" property="commentTimes"/>
+        <result column="nickname" property="user.nickname"/>
+        <result column="image" property="user.image"/>
+    </resultMap>
+
+    <!-- void addUserComment(UserComment userComment); -->
+    <insert id="addUserComment" parameterType="UserComment">
+       <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+           select comment_sequence.nextval from dual
+       </selectKey>
+       insert into "user_comment"("id","comment_date","comment_content","comment_times","user_id","article_id")
+       values(#{id},#{commentDate},#{commentContent},#{commentTimes},#{user.id},#{article.id})
+    </insert>
+    
+    <!-- void updateUserCommentTimes(UserComment userComment); -->
+    <update id="updateUserCommentTimes" parameterType="UserComment">
+        update "user_comment" 
+        set "comment_times"=#{commentTimes} 
+        where "id"=#{id} 
+    </update>
+    
+</mapper>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace命名空间，指向UserDao全路径 -->
+<mapper namespace="com.briup.dao.UserCommentaryDao">
+    <!-- UserCommentary findByUserCommentary(Integer id); -->
+    <select id="findByUserCommentary" parameterType="java.lang.Integer"
+        resultType="UserCommentary">
+        select * 
+        from "user_commentary"
+        where "user_id"=#{uid} and "article_id"=#{aid} and "usercomment_id"=#{ucid}
+    </select>  
+
+    <!-- List<UserCommentary> allUserCommentary(Integer uid,Integer aid); -->
+    <select id="allUserCommentary" parameterType="java.lang.Integer"
+        resultMap="rm">
+        select "user_commentary"."id","commentary_state",
+        "nickname","image",
+        "user_comment"."id" as "comment_id","comment_date",
+        "comment_content","comment_times" 
+        from "user","user_comment","user_commentary" 
+        where "user"."id"="user_comment"."user_id" 
+            and "user_comment"."id"="user_commentary"."usercomment_id"(+) 
+            and "user_commentary"."user_id"(+)=#{uid} 
+            and "user_comment"."article_id"=#{aid}
+        order by "user_comment"."comment_date"
+    </select>
+    <resultMap type="com.briup.bean.UserCommentary" id="rm">
+        <id column="id" property="id" />
+        <result column="commentary_state" property="commentaryState" />
+        <result column="nickname" property="user.nickname"/>
+        <result column="image" property="user.image"/>
+        <result column="comment_id" property="userComment.id" />
+        <result column="comment_date" property="userComment.commentDate" />
+        <result column="comment_content" property="userComment.commentContent" />
+        <result column="comment_times" property="userComment.commentTimes"/>
+    </resultMap>
+
+    <!-- void addUserCommentary(UserCommentary userCommentary); -->
+    <insert id="addUserCommentary" parameterType="UserCommentary">
+       <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+           select commentary_sequence.nextval from dual
+       </selectKey>
+       insert into "user_commentary"("id","commentary_times","commentary_state","user_id","article_id","usercomment_id")
+       values(#{id},#{commentaryTimes},#{commentaryState},#{user.id},#{article.id},#{userComment.id})
+    </insert>
+    
+    <!-- void updateUserCommentaryState(UserCommentary userCommentary); -->
+    <update id="updateUserCommentaryState" parameterType="UserCommentary">
+        update "user_commentary" 
+        set "commentary_state"=#{commentaryState} 
+        where "user_id"=#{user.id} and "article_id"=#{article.id} and "usercomment_id"=#{userComment.id} 
+    </update>
+</mapper>

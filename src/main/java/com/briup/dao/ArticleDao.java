@@ -8,6 +8,7 @@ import com.briup.bean.Article;
 
 @Mapper
 public interface ArticleDao {
+	List<Article> findByHotArticle();
 	List<Article> findByUserId(Integer uid);
 	List<Article> findByCategoryId(Integer cid);
 	List<Article> findByArticleTitle(String title);

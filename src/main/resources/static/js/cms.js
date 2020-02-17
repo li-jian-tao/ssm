@@ -9,8 +9,8 @@ $(function(){
 	if($('.title').eq(getIndexNum).text().trim()=="资讯栏目"){
 		$(".templatemo-content").load('showCategory');
 	}
-	if($('.title').eq(getIndexNum).text()=="热门文章"){
-		$(".templatemo-content").load('hot.html');
+	if($('.title').eq(getIndexNum).text().trim()=="热门文章"){
+		$(".templatemo-content").load('showHotArticle');
 	}
 
 	if($('.title').eq(getIndexNum).text().trim()=="个人管理"){
@@ -45,8 +45,8 @@ $(function(){
 			var num = $(this).index();
 			sessionStorage.setItem("tabLiNum",num);
 		}
-		if($(this).text()=="热门文章"){
-			$(".templatemo-content").load('hot.html');
+		if($(this).text().trim()=="热门文章"){
+			$(".templatemo-content").load('showHotArticle');
 			$(this).addClass("active");
 			var num = $(this).index();
 			sessionStorage.setItem("tabLiNum",num);
@@ -117,9 +117,9 @@ function toPublishVid(){
 function colserelese (id) {
 	$('.templatemo-content-container').load('showUserArticles?id='+id);
 }
-function addcolserelese (id) {
+/*function addcolserelese (id) {
 	$('.templatemo-content-container').load('addByArticle?id='+id);
-}
+}*/
 function showHot () {
 	console.log("ghjk");
 	$('.templatemo-content').load('hotShow.html');
@@ -141,9 +141,9 @@ function UserInfo(){
 }
 // 点击个人发布管理，
 function UserMyrelease(id){
-	var test = window.location.href;
-	//alert(test);
 	$(".showUserinfo").load('showUserArticles?id='+id);
-	//$('.templatemo-content-container').load('showUserArticles?id='+id);
-	//alert(test);
+}
+//点击个人点赞管理，
+function UserMylike(id){
+	$(".showUserinfo").load('showUserLikes?id='+id);
 }

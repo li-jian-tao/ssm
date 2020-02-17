@@ -24,7 +24,6 @@ public class IndexListener implements ServletContextListener {
 	
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
-		System.out.println("1");
 		ServletContext sc = sce.getServletContext();
 		List<Category> category = categoryservice.findByCategory();
 		List<Category> categorys = categoryservice.findByCategorys();

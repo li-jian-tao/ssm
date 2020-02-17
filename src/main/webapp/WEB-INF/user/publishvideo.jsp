@@ -16,7 +16,7 @@
         </button>
     </h2>
     <form action="addByArticle?id=${page }" class="templatemo-login-form" method="post"
-        enctype="multipart/form-data">
+        enctype="multipart/form-data" target="hidden_frame">
 
 
         <div class="row form-group">
@@ -52,10 +52,26 @@
 
         <div id="editor"></div>
         <div class="form-group text-right">
-            <button onclick="addcolserelese(${page })" type="submit" class="templatemo-blue-button">发布</button>
+            <button onclick="UserMyrelease(${page })" type="submit" class="templatemo-blue-button">发布</button>
             <button type="reset" class="templatemo-white-button">清空</button>
         </div>
+        <iframe name='hidden_frame' id="hidden_frame" style='display:none'></iframe>
     </form>
 </div>
 </body>
+<script type="text/javascript">
+    /* function addcolserelese (id) {
+        $('.templatemo-content-container').load('addByArticle?id='+id);
+    }
+ */    
+    /* $(".save").click(function(){
+        var title = $("#title").val();
+        var summary = ${"#summary"}.val();
+        var category_id = $("#category_id option:selected").val();
+        var fileToUpload = $("#fileToUpload").val();
+       // $('.showSomething').load('addUserComment?articleid=' + ${article.id} + '&commenttext=' + comment);    
+        $('.templatemo-content-container').load('addByArticle?title='+ title +'&summary='+ summary +'&category_id='+ category_id +'&id='+ ${page });
+
+    }); */
+    </script>
 </html>

@@ -19,9 +19,11 @@
 <script type="text/javascript">
     function modelShow() {
         $('.modal').show();
+        $('.modal-backdrop').css("z-index","1040");
     }
     function modelHidden() {
         $('.modal').hide();
+        $('.modal-backdrop').css("z-index","-1040");
     }
 </script>
 
@@ -65,7 +67,7 @@
     </div>
     <!-- footer -->
     <footer class="text-center">
-        <p>Copyright &copy; 2019.briup-看点资讯.Company name All rights
+        <p>Copyright &copy; 2019.广西科技大学看点资讯.Company name All rights
             reserved.</p>
     </footer>
 </body>
@@ -75,12 +77,12 @@
         <div class="media margin-bottom-30">
             <div class="media-left padding-right-25">
                 <img class="media-object img-circle templatemo-img-bordered"
-                    src="images/person.jpg" alt="Sunset">
+                    src="${user.image }" alt="Sunset" width="100" height="100">
 
             </div>
             <div class="media-body">
                 <h2 class="media-heading text-uppercase blue-text">Account</h2>
-                <p>User Name</p>
+                <p>${user.nickname }</p>
             </div>
         </div>
         <div class="table-responsive">

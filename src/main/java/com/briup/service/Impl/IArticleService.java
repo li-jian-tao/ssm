@@ -8,6 +8,7 @@ import com.briup.bean.Article;
 import com.github.pagehelper.PageInfo;
 
 public interface IArticleService {
+	public List<Article> findByHotArticle();
 	public List<Article> findByUserId(Integer uid);
 	public List<Article> findByCategoryId(Integer cid);
 	public List<Article> findByArticleTitle(String title);

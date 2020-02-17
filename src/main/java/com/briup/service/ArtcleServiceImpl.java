@@ -2,7 +2,7 @@ package com.briup.service;
 
 import java.io.File;
 import java.sql.Timestamp;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,6 @@ import com.briup.bean.Article;
 import com.briup.dao.ArticleDao;
 import com.briup.service.Impl.IArticleService;
 import com.briup.util.dateTime;
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
@@ -28,6 +27,13 @@ public class ArtcleServiceImpl implements IArticleService{
 	private ArticleDao dao;
 	
 	private dateTime date = new dateTime();
+	
+	@Override
+	public List<Article> findByHotArticle() {
+		List<Article> hotArticle = dao.findByHotArticle();
+		Collections.reverse(hotArticle);
+		return hotArticle;
+	}
 	
 	@Override
 	public List<Article> findByCategoryId(Integer cid) {
@@ -68,7 +74,7 @@ public class ArtcleServiceImpl implements IArticleService{
 	
 	@Override
 	public PageInfo<Article> findByUserPage(Integer uid,Integer page) {
-		Page<Article> p = PageHelper.startPage(page,3);
+		PageHelper.startPage(page,5);
 		System.out.println(page);
 		List<Article> list = dao.findByUserId(uid);
 		PageInfo<Article> pageInfo = new PageInfo<Article>(list);

@@ -12,6 +12,7 @@ import com.briup.bean.User;
 import com.briup.bean.UserLike;
 import com.briup.service.Impl.IArticleService;
 import com.briup.service.Impl.IUseLikeService;
+import com.github.pagehelper.PageInfo;
 
 @Controller
 public class UserLikeController {
@@ -51,5 +52,18 @@ public class UserLikeController {
 		service.updateUserLike(userLike);
 		session.setAttribute("userLike", userLike);
 		return "user/articleDetail";		
+	}
+	
+	@RequestMapping("showUserLikes")
+	public String showUserLikes(Integer id,
+			HttpSession session,HttpServletRequest request) {
+		User user = (User) session.getAttribute("user");
+		PageInfo<UserLike> pageInfo = service.findAllUserLike(user.getId(), id);
+		session.setAttribute("nextpage", pageInfo.getNextPage());
+		session.setAttribute("prepage", pageInfo.getPrePage());
+		session.setAttribute("pagecount", pageInfo.getNavigatepageNums());
+		session.setAttribute("page", id);
+		session.setAttribute("list", pageInfo.getList());
+		return "user/mylike";			
 	}
 }

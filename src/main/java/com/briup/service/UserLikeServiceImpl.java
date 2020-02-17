@@ -1,6 +1,7 @@
 package com.briup.service;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,8 @@ import com.briup.bean.UserLike;
 import com.briup.dao.UserLikeDao;
 import com.briup.service.Impl.IUseLikeService;
 import com.briup.util.dateTime;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 @Service
 public class UserLikeServiceImpl implements IUseLikeService{
@@ -41,6 +44,16 @@ public class UserLikeServiceImpl implements IUseLikeService{
 		userlike.setLikeDate(nowDate);
 		dao.updateUserLike(userlike);
 		System.out.println("修改"+userlike);
+	}
+
+	@Override
+	public PageInfo<UserLike> findAllUserLike(Integer uid,Integer page) {
+		PageHelper.startPage(page,5);
+		System.out.println(page);
+		List<UserLike> list = dao.findAllUserLike(uid);
+		PageInfo<UserLike> pageInfo = new PageInfo<UserLike>(list);
+		System.out.println(pageInfo.getSize()+"hang");
+		return pageInfo;
 	}
 
 }

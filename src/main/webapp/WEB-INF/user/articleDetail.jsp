@@ -21,7 +21,7 @@
                     <!-- 向右浮动 -->
                     <i class="fa fa-exclamation-triangle fa-lg report_btn fa-2x" style="cursor: pointer;"></i>
                     <i class="fa fa-heart fa-lg fa-2x" style="cursor: pointer;"></i> 
-                    <i class="fa fa-thumbs-up  fa-lg fa-2x" style="cursor: pointer;"></i> 
+                    <i class="fa fa-thumbs-up s fa-lg fa-2x" style="cursor: pointer;"></i> 
                 </div>
             </div>
 
@@ -32,13 +32,48 @@
                 <div align="center">
                     <img src="images/indexnews.jpg">
                 </div>
-
+                <c:if test="${format=='doc' }">
                 <div style="font-size: 18px; text-indent: 2em; margin-top: 2em;">
-                    ${article.content }
+                    ${readFileContent }
                 </div>
+                </c:if>
+                <c:if test="${format=='wmv'||format=='mp4'}">
+					<video width="320" height="240" controls="controls" autoplay="autoplay">
+					  <source src="/i/movie.ogg" type="video/ogg" />
+					  <source src="${path }" type="video/mp4" />
+					  <source src="/i/movie.webm" type="video/webm" />
+					</video>
+                </c:if>
             </div>
 
-
+            <div id="ArticleDetails" style="margin-top: 45px; ">
+                <c:forEach items="${userComment }" var="comment">
+                <div style="font-size: 20px; ">
+                    <img alt="" src="${comment.user.image }" width="26" height="26">
+                    ${comment.user.nickname }   ${comment.userComment.commentDate }
+                    <div class="articleOp">
+	                    <!-- 向右浮动 -->
+                        <div style="font-size: 11px; ">${comment.userComment.commentTimes }</div>
+	                    <c:if test="${comment.commentaryState==null }">
+	                       <i onclick="comment(${comment.userComment.id},1)" class="fa fa-thumbs-up fa-lg fa-2x" style="cursor: pointer; font-size: 1em;"></i> 
+	                    </c:if>
+	                    <c:if test="${comment.commentaryState==1 }">
+                           <i onclick="comment(${comment.userComment.id},2)" class="fa fa-thumbs-up fa-lg fa-2x" style="cursor: pointer; font-size: 1em; color: red;"></i> 
+                        </c:if>
+                        <c:if test="${comment.commentaryState==2 }">
+                           <i onclick="comment(${comment.userComment.id},1)" class="fa fa-thumbs-up fa-lg fa-2x" style="cursor: pointer; font-size: 1em;"></i> 
+                        </c:if>
+                    </div>                        
+                </div>
+                <div style="font-size: 16px; text-indent: 2em; margin-buttom: 2em;">
+                    ${comment.userComment.commentContent }
+                </div>
+                <div style="width:92%; height: 2px; background: red; margin: 10px auto; "></div>
+                </c:forEach>
+            </div>
+	            <input type="text" name="commenttext" class="form-control" id="signinInputName"
+	               value="说说自己的看法" style="width: 90%; float: reft; ">
+	            <input class="btn btn-info save" type="button" value="发表" id="save">
         </div>
     </div>
     <c:if test="${userReport.state==0||userReport==null }">
@@ -86,7 +121,7 @@
     $(function() {
         // 如果点赞状态为1，说明是点赞状态，设置颜色
         if("${userLike.state}" == 1) {
-            $(".fa-thumbs-up").css("color", "#f89c19");
+            $(".fa-thumbs-up.s").css("color", "#f89c19");
         } 
         // 如果收藏状态为1，说明是收藏状态，设置颜色
         if("${userCollection.state}" == 1) {
@@ -97,9 +132,14 @@
             $(".fa-exclamation-triangle").css("color", "yellow");
         } 
     });
+ // 点赞按钮被点击时
+    function comment(id,state) {
+        $('.showSomething').load('addAndUpdateUserComment?usercommentid=' +id+ '&articleid=' + ${article.id} + '&state=' +state);
+    };
+
     
     // 点赞按钮被点击时
-    $(".fa-thumbs-up").click(function() {
+    $(".fa-thumbs-up.s").click(function() {
         // 如果当前点赞状态为null，说明从未被点赞。null 变 1
         if("${userLike.state}" == "") {
             $('.showSomething').load('addUserLikeState?articleId=' + ${article.id});
@@ -131,7 +171,36 @@
             $('.showSomething').load('changeUserCollectionState?state=1&articleId=' + ${article.id});
         }
     });
-    
+
+    $(".save").click(function(){
+        var comment = $("#signinInputName").val();
+    	$('.showSomething').load('addUserComment?articleid=' + ${article.id} + '&commenttext=' + comment);    
+
+
+    });
+        
+   /*  function submitForm() {
+        alert("开始");
+    	$.ajax( {
+            url:"addUserComment",
+            data:{
+                articleid:$("#articleid").val(),
+                commenttext:$("#signinInputName").val(),
+                },
+            type:"post",
+            success: function(data) {
+                //if(data=="1"){
+                    alert("添加成功");
+                    window.location.reload();
+                //}
+               // else{
+                //    alert("添加失败");
+                //}
+            },
+        });
+        alert("结束");
+        return false;
+    } */
     
 </script>
 </body>
