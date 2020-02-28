@@ -8,24 +8,24 @@
 <title>Insert title here</title>
 </head>
 <body>
+<div class="showSomething2">
 <div class="templatemo-content col-1 white-bg">
-    <div class="templatemo-content-container">
-        <c:forEach items="${list }" var="list">
-        <div class="templatemo-content-widget green-bg" onclick="showHot()">
-            <div class="media">
-                <div class="media-left">
-                    <img class="media-object img-circle" src="../images/sunset.jpg"
-                        alt="Sunset">
-                </div>
-                <div class="media-body">
-                    <h2 class="media-heading text-uppercase">${list.title }</h2>
-                    <p>作者：${list.user.nickname }</p>
-                    <p>阅读量：${list.clickTimes }</p>
-                </div>
+    <c:forEach items="${list }" var="list">
+    <div class="templatemo-content-widget green-bg" onclick="showDetail2(${list.id })">
+        <div class="media">
+            <div class="media-left">
+                <img class="media-object img-circle" src="../images/sunset.jpg"
+                    alt="Sunset">
+            </div>
+            <div class="media-body">
+                <h2 class="media-heading text-uppercase">${list.title }</h2>
+                <p>作者：${list.user.nickname }</p>
+                <p>阅读量：${list.clickTimes }</p>
             </div>
         </div>
-        </c:forEach>
     </div>
+    </c:forEach>
+</div>
 </div>
 </body>
 </html>

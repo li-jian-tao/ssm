@@ -13,7 +13,8 @@ public interface ArticleDao {
 	List<Article> findByCategoryId(Integer cid);
 	List<Article> findByArticleTitle(String title);
 	List<Article> findByArticleAuthor(String nickname);
+	List<Article> AllArticle(Integer cid,Integer state,String cname);
 	Article findByArticle(Integer id);
-	void updateByClickTimes(Integer times,Integer id);
+	void updateByClickTimes(Integer times,Integer state,Integer id);
 	void addByArticle(Article article);
 }

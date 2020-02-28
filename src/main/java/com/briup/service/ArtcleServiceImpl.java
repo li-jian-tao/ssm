@@ -61,9 +61,11 @@ public class ArtcleServiceImpl implements IArticleService{
 	}
 
 	@Override
-	public void updateByClickTimes(Integer times, Integer id) {
-		times++;
-		dao.updateByClickTimes(times, id);
+	public void updateByClickTimes(Integer times,Integer state, Integer id) {
+		if(times != null) {
+			times++;
+		} 
+		dao.updateByClickTimes(times, state, id);
 	}
 
 	@Override
@@ -71,6 +73,17 @@ public class ArtcleServiceImpl implements IArticleService{
 		List<Article> list = dao.findByUserId(uid);
 		return list;
 	}
+	
+	@Override
+	public PageInfo<Article> AllArticle(Integer cid, Integer state, String cname,Integer page) {
+		PageHelper.startPage(page,10);
+		System.out.println("栏目号码"+cid+"栏目状态"+state+"所输入的名字"+cname+"页数"+page);
+		List<Article> allArticle = dao.AllArticle(cid, state, cname);
+		PageInfo<Article> pageInfo = new PageInfo<Article>(allArticle);
+		System.out.println(pageInfo.getSize()+"hang");
+		return pageInfo;
+	}
+
 	
 	@Override
 	public PageInfo<Article> findByUserPage(Integer uid,Integer page) {
@@ -88,6 +101,7 @@ public class ArtcleServiceImpl implements IArticleService{
 		System.out.println("时间打印"+nowDate);	
 		article.setReleaseDate(nowDate);
 		article.setClickTimes(0);
+		article.setState(0);
 		System.out.println(path);
 		if(!fileToUpload.isEmpty()) {
 			String filename = System.currentTimeMillis()+fileToUpload.getOriginalFilename();

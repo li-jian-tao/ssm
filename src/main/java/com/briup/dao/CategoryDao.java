@@ -10,4 +10,10 @@ import com.briup.bean.Category;
 public interface CategoryDao {
 	List<Category> findByCategory();
 	List<Category> findByCategorys();
+	List<Category> allCategory();
+	void addByCategory(Category category);
+	List<Category> findByCategoryParent();
+	Category findByCategoryPid(String name);
+	Category findByCategoryId(Integer id);
+	void deleteByCategory(Integer cid);
 }

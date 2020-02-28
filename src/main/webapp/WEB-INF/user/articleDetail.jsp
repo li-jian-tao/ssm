@@ -32,18 +32,9 @@
                 <div align="center">
                     <img src="images/indexnews.jpg">
                 </div>
-                <c:if test="${format=='doc' }">
                 <div style="font-size: 18px; text-indent: 2em; margin-top: 2em;">
                     ${readFileContent }
                 </div>
-                </c:if>
-                <c:if test="${format=='wmv'||format=='mp4'}">
-					<video width="320" height="240" controls="controls" autoplay="autoplay">
-					  <source src="/i/movie.ogg" type="video/ogg" />
-					  <source src="${path }" type="video/mp4" />
-					  <source src="/i/movie.webm" type="video/webm" />
-					</video>
-                </c:if>
             </div>
 
             <div id="ArticleDetails" style="margin-top: 45px; ">
@@ -178,30 +169,7 @@
 
 
     });
-        
-   /*  function submitForm() {
-        alert("开始");
-    	$.ajax( {
-            url:"addUserComment",
-            data:{
-                articleid:$("#articleid").val(),
-                commenttext:$("#signinInputName").val(),
-                },
-            type:"post",
-            success: function(data) {
-                //if(data=="1"){
-                    alert("添加成功");
-                    window.location.reload();
-                //}
-               // else{
-                //    alert("添加失败");
-                //}
-            },
-        });
-        alert("结束");
-        return false;
-    } */
-    
+
 </script>
 </body>
 </html>

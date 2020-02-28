@@ -11,16 +11,18 @@ public class Category implements Serializable {
 	private Integer id;
 	private String name;
 	private String description;
+	private Category cate;
 	private List<Category> cates = new ArrayList<Category>();
 	
 	public Category() {
 	}
 
-	public Category(Integer id, String name, String description, List<Category> cates) {
+	public Category(Integer id, String name, String description, Category cate, List<Category> cates) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
+		this.cate = cate;
 		this.cates = cates;
 	}
 
@@ -56,10 +58,18 @@ public class Category implements Serializable {
 		this.cates = cates;
 	}
 
+	public Category getCate() {
+		return cate;
+	}
+
+	public void setCate(Category cate) {
+		this.cate = cate;
+	}
+
 	@Override
 	public String toString() {
-		return "Category [id=" + id + ", name=" + name + ", description=" + description + ", cates=" + cates + "]";
+		return "Category [id=" + id + ", name=" + name + ", description="
+				+ description + ", cate=" + cate + ", cates=" + cates + "]";
 	}
-	
 	
 }

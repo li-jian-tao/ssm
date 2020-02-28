@@ -1,14 +1,11 @@
 package com.briup.web.controller;
 
-import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.briup.bean.Article;
 import com.briup.bean.User;
 
 @Controller
@@ -28,17 +25,6 @@ public class ViewController {
 	public String indexContent() {
 		return "indexContent";		
 	}
-	
-	@RequestMapping(value = {"showCategory"})
-	public String Categoryshow() {
-		return "user/category";
-	}
-	
-//	@RequestMapping(value = {"showHotArticle"})
-//	public String showHotArticle(
-//			HttpSession session,HttpServletRequest request) {
-//		return "user/hotArticle";
-//	}
 	
 	@RequestMapping(value = {"showUserInfo"})
 	public String showuserInfo(HttpSession session) {
@@ -76,6 +62,16 @@ public class ViewController {
 	@RequestMapping(value = {"empty"})
 	public String empty() {
 		return "user/empty";	
+	}
+	
+	@RequestMapping(value = {"showArticleManger"})
+	public String showArticleManger() {
+		return "admin/articleManger";
+	}
+	
+	@RequestMapping(value = {"categoryMangar"})
+	public String categoryMangar() {
+		return "admin/categoryMangar";
 	}
 	
 }

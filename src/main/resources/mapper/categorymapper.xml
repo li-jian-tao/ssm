@@ -30,4 +30,76 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         from "category"
     </select>
     
+    <!-- List<Category> findByCategoryParent(); -->
+    <select id="findByCategoryParent" resultType="Category">
+        select *
+        from "category"
+        where "parent_id" is null
+    </select>
+    
+    <!-- Category findByCategoryPid(String name); -->
+    <select id="findByCategoryPid" parameterType="java.lang.String"
+        resultType="com.briup.bean.Category">
+        select "id"
+        from "category"
+        where "name"=#{name}
+    </select>
+    
+    <!-- Category findByCategoryId(Integer id); -->
+    <select id="findByCategoryId" parameterType="java.lang.Integer"
+        resultMap="ocrm">
+        select c2."id" cid,
+               c2."name" cname,
+               c2."description" cdescription,
+               c1."id" pid,
+               c1."name" pname
+        from "category" c1,"category" c2 
+        where c1."id" = c2."parent_id"
+            and c2."id"=#{id}
+    </select>
+    <resultMap type="com.briup.bean.Category" id="ocrm">
+        <id column="cid" property="id" />
+        <result column="cname" property="name" />
+        <result column="cdescription" property="description"/>
+        <result column="pid" property="cate.id" />
+        <result column="pname" property="cate.name" />
+    </resultMap>
+    
+    <!-- Category allCategory(); -->
+    <select id="allCategory" resultMap="crm">
+        select c2."id" cid,
+               c2."name" cname,
+               c2."description" cdescription,
+               c1."name" pname
+        from "category" c1,"category" c2 
+        where c1."id" = c2."parent_id"
+    </select>
+    <resultMap type="com.briup.bean.Category" id="crm">
+        <id column="cid" property="id" />
+        <result column="cname" property="name" />
+        <result column="cdescription" property="description"/>
+        <result column="pname" property="cate.name" />
+    </resultMap>
+    
+    <!-- void addByCategory(Category category); -->
+    <insert id="addByCategory" parameterType="Category">
+        <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+            select category_sequence.nextval from dual
+        </selectKey>
+        insert into "category"("id","name","description","parent_id")
+        values(#{id},#{name,jdbcType=VARCHAR},#{description,jdbcType=VARCHAR},#{cate.id,jdbcType=NUMERIC})
+    </insert>
+    
+    <!-- void updateByCategory(Integer times); -->
+    <update id="updateByClickTimes" parameterType="java.lang.Integer">
+        update "article" 
+        set "clickTimes" = #{times} 
+        where "id" = #{id}
+    </update>
+    
+    <!-- void deleteByCategory(Integer cid); -->
+    <delete id="deleteByCategory" parameterType="java.lang.Integer">  
+        delete from "category" where "id" = #{cid}  
+    </delete> 
+    
 </mapper>

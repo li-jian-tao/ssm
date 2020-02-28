@@ -11,9 +11,11 @@
 <link href="css/font-awesome.min.css" rel="stylesheet">
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/templatemo-style.css" rel="stylesheet">
+<link rel="stylesheet" href="css/iconFont/page.css">
 <link rel="stylesheet" href="css/iconFont/iconfont.css">
 <script src="js/jquery-1.11.0.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
+<script src="js/flowplayer.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="js/bootsnav.js"></script>
 <script type="text/javascript" src="js/cms.js"></script>
 <script type="text/javascript">
@@ -54,8 +56,6 @@
                     <li class="title"><i class="fa fa-bookmark fa-fw"></i>热门文章</li>
                     <li class="title"><i class="fa fa-bars fa-fw"></i>资讯栏目</li>
                     <li class="title"><i class="fa fa-cog fa-fw"></i>个人管理</li>
-                    <li class="title"><i class="fa fa-bar-chart fa-fw"></i>资讯管理</li>
-                    <li class="title"><i class="fa fa-tasks fa-fw"></i>栏目管理</li>
                     <li class="title"><i class="fa fa-sign-out fa-fw"></i>退出系统</li>
                 </ul>
             </div>

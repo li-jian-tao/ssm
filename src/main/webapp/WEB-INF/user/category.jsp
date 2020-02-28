@@ -56,9 +56,7 @@
         </div>
         
         <div class="showSomething">
-            <div class="templatemo-content-widget orange-bg marginStyle"
-                onclick="showSomething()">
-				
+            <div class="templatemo-content-widget orange-bg marginStyle">
             </div>
         </div> 
         

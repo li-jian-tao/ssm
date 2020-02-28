@@ -7,20 +7,26 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Home</title>
-
-<link href="../css/font-awesome.min.css" rel="stylesheet">
-<link href="../css/bootstrap.min.css" rel="stylesheet">
-<link href="../css/templatemo-style.css" rel="stylesheet">
-<link rel="stylesheet" href="../css/iconFont/iconfont.css">
-<script src="../js/jquery-1.11.0.min.js"></script>
-<script src="../js/bootstrap.min.js"></script>
+<link href="css/font-awesome.min.css" rel="stylesheet">
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/templatemo-style.css" rel="stylesheet">
+<link rel="stylesheet" href="css/iconFont/iconfont.css">
+<link rel="stylesheet" href="css/iconFont/page.css">
+<script src="js/jquery-1.11.0.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquerysession.js"></script>
+<script src="js/flowplayer.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/bootsnav.js"></script>
+<script type="text/javascript" src="js/cms.js"></script>
 <script type="text/javascript">
-    function modelShow() {
-        $('.modal').show();
-    }
-    function modelHidden() {
-        $('.modal').hide();
-    }
+function modelShow() {
+    $('.modal').show();
+    $('.modal-backdrop').css("z-index","1040");
+}
+function modelHidden() {
+    $('.modal').hide();
+    $('.modal-backdrop').css("z-index","-1040");
+}
 </script>
 
 
@@ -46,13 +52,10 @@
 
             <div class="templatemo-left-nav">
                 <ul>
-
                     <li class="title active"><i class="fa fa-home fa-fw "></i>主页</li>
                     <li class="title"><i class="fa fa-bar-chart fa-fw"></i>资讯管理</li>
                     <li class="title"><i class="fa fa-tasks fa-fw"></i>栏目管理</li>
                     <li class="title"><i class="fa fa-sign-out fa-fw"></i>退出系统</li>
-
-
                 </ul>
             </div>
         </div>
@@ -94,11 +97,12 @@
         <div class="media margin-bottom-30">
             <div class="media-left padding-right-25">
                 <img class="media-object img-circle templatemo-img-bordered"
-                    src="../images/person.jpg" alt="Sunset">
+                    src="${user.image }" alt="Sunset" width="100" height="100">
+
             </div>
             <div class="media-body">
                 <h2 class="media-heading text-uppercase blue-text">Account</h2>
-                <p>User Name</p>
+                <p>${user.nickname }</p>
             </div>
         </div>
         <div class="table-responsive">

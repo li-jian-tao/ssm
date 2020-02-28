@@ -16,11 +16,11 @@ $(function(){
 	if($('.title').eq(getIndexNum).text().trim()=="个人管理"){
 		$(".templatemo-content").load('showUserInfo');
 	}
-	if($('.title').eq(getIndexNum).text()=="资讯管理"){
-		$(".templatemo-content").load('admin/categoryMangar.jsp');
+	if($('.title').eq(getIndexNum).text().trim()=="资讯管理"){
+		$(".templatemo-content").load('manger');
 	}
-	if($('.title').eq(getIndexNum).text()=="栏目管理"){
-		$(".templatemo-content").load('admin/categoryMangar');
+	if($('.title').eq(getIndexNum).text().trim()=="栏目管理"){
+		$(".templatemo-content").load('showAllCategory?page=1');
 	}
 
 	if($('.title').eq(getIndexNum).text().trim()=="退出系统"){
@@ -58,13 +58,14 @@ $(function(){
 			var num = $(this).index();
 			sessionStorage.setItem("tabLiNum",num);
 		}
-		if($(this).text()=="资讯管理"){
-			$(".templatemo-content").load('admin/categoryMangar.jsp');
+		if($(this).text().trim()=="资讯管理"){
+			$(".templatemo-content").load('manger');
 			$(this).addClass("active");
-
+			var num = $(this).index();
+			sessionStorage.setItem("tabLiNum",num);
 		}
-		if($(this).text()=="栏目管理"){
-			$(".templatemo-content").load('admin/categoryMangar');
+		if($(this).text().trim()=="栏目管理"){
+			$(".templatemo-content").load('showAllCategory?page=1');
 			$(this).addClass("active");
 			var num = $(this).index();
 			sessionStorage.setItem("tabLiNum",num);
@@ -117,24 +118,72 @@ function toPublishVid(){
 function colserelese (id) {
 	$('.templatemo-content-container').load('showUserArticles?id='+id);
 }
-/*function addcolserelese (id) {
-	$('.templatemo-content-container').load('addByArticle?id='+id);
-}*/
 function showHot () {
 	console.log("ghjk");
 	$('.templatemo-content').load('hotShow.html');
 	console.log("ghjk");
-
 }
 
 // 点击二级栏目，加载此二级栏目的所有文章
 function showArticles(id) {
 	$(".showSomething").load('acticleShow?category_id='+id);
 }
+//点击标题，显示文章详情
+function showAllCategory(page) {
+	$(".templatemo-content").load('showAllCategory?page='+page);
+}
+//删除正常咨询管理
+function deleteCategory(id){
+	$('.templatemo-content').load('deleteCategory?id='+id);
+	alert("成功删除");
+}
+//修改咨询管理
+function updateCategory(id){
+	$('.templatemo-content').load('findCategory?id='+id);
+	setTimeout("updateShow()",100); 
+}
+
 // 点击标题，显示文章详情
-function showDetail (id) {
+function showDetail(id) {
 	$('.showSomething').load('articleDetail?detail_id='+id);
 }
+function showDetail2(id) {
+	$('.showSomething2').load('articleDetail?detail_id='+id);
+}
+$("#srch-term").on("keydown", function(event) {
+	if(event.keyCode == 13 || event.which == 13) {
+		showArticleCheck(1);
+	}
+});
+//点击正常咨询审核
+function showArticleCheck(page){
+	var id = $("#sel").val();
+	var state = $("#state").val();
+	var name = $("#srch-term").val();
+	if(typeof(id) == "undefined"&&typeof(state) == "undefined"){
+		$('.showSomething3').load('showArticleCheck?id=0&state=0&name=0&page='+page);
+	} else if(typeof(id) == "undefined"){
+		$('.showSomething3').load('showArticleCheck?id=0&state='+state+'&name=0&page='+page);
+	} else if(typeof(state) == "undefined"){
+		$('.showSomething3').load('showArticleCheck?id='+id+'&state=0&name=0&page='+page);		
+	}
+	else{
+		$('.showSomething3').load('showArticleCheck?id='+id+'&state='+state+'&name='+name+'&page='+page);
+	}
+}
+
+//修改正常咨询管理
+function updateState(id,st,page){
+	var cid = $("#sel").val();
+	var state = $("#state").val();
+	var name = $("#srch-term").val();
+	$('.showSomething3').load('updateArticleManger?id='+id+'&st='+st+'&page='+page+'&cid='+cid+'&state='+state+'&name='+name);
+}
+//点击正常咨询管理
+function showArticleManger(){
+	$('.showSomething3').load('showArticleManger');
+}
+
 // 点击个人信息管理，
 function UserInfo(){
 	$(".showUserinfo").load('userinfo');

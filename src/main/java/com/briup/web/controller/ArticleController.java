@@ -1,6 +1,7 @@
 package com.briup.web.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -14,17 +15,17 @@ import com.briup.bean.Article;
 import com.briup.bean.Category;
 import com.briup.bean.User;
 import com.briup.bean.UserCollection;
-import com.briup.bean.UserComment;
 import com.briup.bean.UserCommentary;
 import com.briup.bean.UserLike;
 import com.briup.bean.UserReport;
 import com.briup.service.Impl.IArticleService;
+import com.briup.service.Impl.ICategoryService;
 import com.briup.service.Impl.IUseLikeService;
 import com.briup.service.Impl.IUserCollectionService;
-import com.briup.service.Impl.IUserCommentService;
 import com.briup.service.Impl.IUserCommentaryService;
 import com.briup.service.Impl.IUserReportService;
 import com.briup.util.document;
+import com.briup.util.saverPage;
 import com.github.pagehelper.PageInfo;
 
 @Controller
@@ -32,6 +33,9 @@ public class ArticleController {
 
 	@Autowired
 	private IArticleService service;
+	
+	@Autowired
+	private ICategoryService cservice;
 	
 	@Autowired
 	private IUseLikeService userlikeservice;
@@ -82,19 +86,10 @@ public class ArticleController {
 			HttpSession session,HttpServletRequest request) {
 		Article article = service.findByArticle(detail_id);
 		String path="G:\\v\\video\\";
-		int index = article.getContent().indexOf(".");
-		String newStr = article.getContent().substring(index + 1);
 		document document = new document();
-		if(newStr.equals("doc")) {
-			System.out.println("doc");
-			List<String> readFileContent = document.readFileContent(path+article.getContent());
-			session.setAttribute("readFileContent", readFileContent);
-		} else if(newStr.equals("img")||newStr.equals("mp4")||newStr.equals("wmv")){
-			System.out.println("wmv");
-			String newpath = path+article.getContent();
-			session.setAttribute("path", newpath);
-		}
-		service.updateByClickTimes(article.getClickTimes(), detail_id);
+		List<String> readFileContent = document.readFileContent(path+article.getContent());
+		session.setAttribute("readFileContent", readFileContent);
+		service.updateByClickTimes(article.getClickTimes(), null, detail_id);
 		User user = (User) session.getAttribute("user");
 		UserLike userLike = userlikeservice.findByUserLike(user.getId(), article.getId());
 		UserCollection userCollection = usercollectionservice.findByUserCollection(user.getId(), article.getId());
@@ -104,7 +99,6 @@ public class ArticleController {
 		session.setAttribute("userCollection", userCollection);
 		session.setAttribute("userReport", userReport);
 		session.setAttribute("article", article);
-		session.setAttribute("format", newStr);
 		session.setAttribute("userComment", allUserComment);
 		return "user/articleDetail";
 	}
@@ -114,6 +108,10 @@ public class ArticleController {
 			HttpSession session,HttpServletRequest request) {
 		User user = (User) session.getAttribute("user");
 		PageInfo<Article> pageInfo = service.findByUserPage(user.getId(), id);
+		saverPage saverPage = new saverPage();
+		Map<String, Integer> map = saverPage.StartAndEnd(pageInfo, id, 5);
+		session.setAttribute("start", map.get("start"));
+		session.setAttribute("end", map.get("end"));
 		session.setAttribute("nextpage", pageInfo.getNextPage());
 		session.setAttribute("prepage", pageInfo.getPrePage());
 		session.setAttribute("pagecount", pageInfo.getNavigatepageNums());
@@ -130,16 +128,74 @@ public class ArticleController {
 		category.setId(category_id);
 		article.setUser(user);
 		article.setCategory(category);
-		service.addByArticle(article,fileToUpload);
 		String fileName = fileToUpload.getName();
 		String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
+		service.addByArticle(article,fileToUpload);
+		if(suffix.equals("doc")||suffix.equals("docx")) {
+			session.setAttribute("msg", "发布成功");
+		} else {
+			session.setAttribute("msg", "上传的文件类型有误");
+		}
 		PageInfo<Article> pageInfo = service.findByUserPage(user.getId(), id);
+		saverPage saverPage = new saverPage();
+		Map<String, Integer> map = saverPage.StartAndEnd(pageInfo, id, 5);
+		session.setAttribute("start", map.get("start"));
+		session.setAttribute("end", map.get("end"));
 		session.setAttribute("nextpage", pageInfo.getNextPage());
 		session.setAttribute("prepage", pageInfo.getPrePage());
 		session.setAttribute("pagecount", pageInfo.getNavigatepageNums());
 		session.setAttribute("page", id);
 		session.setAttribute("list", pageInfo.getList());
 		return "redirect:/showUserArticles?id="+id;
+	}
+	
+	@RequestMapping("manger")
+	public String manger(HttpSession session) {
+		PageInfo<Article> pageInfo = service.AllArticle(0, 0, null, 1);
+		List<Category> categorys = cservice.findByCategorys();
+		saverPage saverPage = new saverPage();
+		Map<String, Integer> map = saverPage.StartAndEnd(pageInfo, 1, 5);
+		session.setAttribute("start", map.get("start"));
+		session.setAttribute("end", map.get("end"));
+		session.setAttribute("nextpage", pageInfo.getNextPage());
+		session.setAttribute("prepage", pageInfo.getPrePage());
+		session.setAttribute("pagecount", pageInfo.getNavigatepageNums());
+		session.setAttribute("page", 1);
+		session.setAttribute("list", pageInfo.getList());
+		session.setAttribute("cid", 0);
+		session.setAttribute("state", 0);
+		session.setAttribute("categorys", categorys);
+		return "admin/manger";
+	}
+	
+	@RequestMapping("showArticleCheck")
+	public String showArticleCheck(Integer id,Integer state,String name,Integer page,
+			HttpSession session,HttpServletRequest request) {
+		if(name.equals("0")) {
+			name=null;
+		}
+		PageInfo<Article> pageInfo = service.AllArticle(id, state, name,page);
+		List<Category> categorys = cservice.findByCategorys();
+		saverPage saverPage = new saverPage();
+		Map<String, Integer> map = saverPage.StartAndEnd(pageInfo, page, 5);
+		session.setAttribute("start", map.get("start"));
+		session.setAttribute("end", map.get("end"));
+		session.setAttribute("nextpage", pageInfo.getNextPage());
+		session.setAttribute("prepage", pageInfo.getPrePage());
+		session.setAttribute("pagecount", pageInfo.getNavigatepageNums());
+		session.setAttribute("page", page);
+		session.setAttribute("list", pageInfo.getList());
+		session.setAttribute("categorys", categorys);
+		session.setAttribute("cid", id);
+		session.setAttribute("state", state);
+		return "admin/articleCheck";
+	}
+	
+	@RequestMapping("updateArticleManger")
+	public String updateArticleManger(Integer id,Integer st,Integer page,Integer cid,Integer state,String name,
+			HttpSession session,HttpServletRequest request) {
+		service.updateByClickTimes(null, st, id);
+		return "redirect:/showArticleCheck?id="+cid+"&state="+state+"&name="+name+"&page="+page;
 	}
 	
 }
