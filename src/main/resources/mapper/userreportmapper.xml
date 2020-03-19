@@ -10,7 +10,72 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select * 
         from "user_report" 
         where "user_id"=#{uid} and "article_id"=#{aid}
+    </select> 
+    
+    <!-- List<UserReport> findByUserReportArticleId(Integer aid); -->
+    <select id="findByUserReportArticleId" parameterType="java.lang.Integer"
+        resultMap="urm">
+        select "user_report"."id","report_type","report_content"
+        from "user_report" 
+        where "article_id"=#{aid}
     </select>
+    <resultMap type="com.briup.bean.UserReport" id="urm">
+        <id column="id" property="id" />
+        <result column="report_type" property="reportType" />
+        <result column="report_content" property="reportContent" />
+    </resultMap>
+    
+     <!-- List<UserReport> reportMount(String name); -->
+    <select id="reportMount"
+        resultMap="trm">
+        select distinct "article"."id","title","nickname","reportNum","article"."state","releaseDate"
+        from "article","user_report","user"
+        where "article"."id"="user_report"."article_id" and "user"."id"="article"."user_id"
+            and "CONCAT"("title", "nickname") like '%'||#{name,jdbcType=VARCHAR}||'%'
+    </select>
+    <resultMap type="com.briup.bean.UserReport" id="trm">
+        <result column="id" property="article.id" />
+        <result column="title" property="article.title" />
+        <result column="nickname" property="user.nickname" />
+        <result column="reportNum" property="article.reportNum" />
+        <result column="state" property="article.state" />
+        <result column="releaseDate" property="article.releaseDate" />
+    </resultMap>
+
+    <!-- List<UserReport> findAllUserReport(Integer uid); -->
+    <select id="findAllUserReport" parameterType="java.lang.Integer"
+        resultMap="rm">
+        select "user_report"."id","report_date","title","user_report"."state"
+        from "user_report","article"
+        where "user_report"."article_id"="article"."id" 
+            and "user_report"."user_id"=#{uid}
+    </select>
+    <resultMap type="com.briup.bean.UserReport" id="rm">
+        <id column="id" property="id" />
+        <result column="report_date" property="reportDate" />
+        <result column="title" property="article.title" />
+        <result column="state" property="state" />
+    </resultMap>
+    
+    <!-- UserReport findByUserReportId(Integer id); -->
+    <select id="findByUserReportId" parameterType="java.lang.Integer"
+        resultMap="orm">
+        select "user_report"."id","report_date","report_type","report_content",
+                "title","user_report"."state","process_date","process_content"
+        from "user_report","article"
+        where "user_report"."article_id"="article"."id" 
+            and "user_report"."id"=#{id}
+    </select>
+    <resultMap type="com.briup.bean.UserReport" id="orm">
+        <id column="id" property="id" />
+        <result column="report_date" property="reportDate" />
+        <result column="report_type" property="reportType" />
+        <result column="report_content" property="reportContent" />
+        <result column="title" property="article.title" />
+        <result column="state" property="state" />
+        <result column="process_date" property="processDate" />
+        <result column="process_content" property="processContent" />
+    </resultMap>
 
     <!-- void addUserReport(UserReport userReport); -->
     <insert id="addUserReport" parameterType="UserReport">
@@ -20,5 +85,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
        insert into "user_report"("id","report_date","report_type","report_content","state","user_id","article_id")
        values(#{id},#{reportDate},#{reportType},#{reportContent},#{state},#{user.id},#{article.id})
     </insert>
+    
+    <!-- void updateByProcess(UserReport userReport); -->
+    <update id="updateByProcess" parameterType="UserReport">
+        update "user_report" 
+        set "process_date" = #{processDate},"process_content" = #{processContent}
+        where "id" = #{id}
+    </update>
     
 </mapper>

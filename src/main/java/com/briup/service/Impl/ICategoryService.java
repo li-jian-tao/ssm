@@ -11,7 +11,9 @@ public interface ICategoryService {
 	public PageInfo<Category> allCategory(Integer page);
 	public void addByCategory(Category category,Integer pid);
 	public List<Category> findByCategoryParent();
+	public List<Category> findByCategoryChildren();
 	public Category findByCategoryPid(String name);
 	public Category findByCategoryId(Integer id);
 	public void deleteByCategory(Integer cid);
+	public void updateByCategory(Category category);
 }

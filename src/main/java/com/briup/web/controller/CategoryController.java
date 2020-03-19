@@ -36,6 +36,7 @@ public class CategoryController {
 			HttpSession session,HttpServletRequest request) {
 		boolean isSize = false;
 		List<Category> categoryParent = service.findByCategoryParent();
+		System.out.println(categoryParent.size());
 		if(categoryParent.size()<=7) {
 			isSize = true;
 		} else {
@@ -66,6 +67,7 @@ public class CategoryController {
 		session.setAttribute("onename", oneCategory.getName());
 		session.setAttribute("onedescription", oneCategory.getDescription());
 		session.setAttribute("onepid", oneCategory.getCate().getId());
+		session.setAttribute("onepname", oneCategory.getCate().getName());
 		return "admin/categoryMangar";
 	}
 	
@@ -77,24 +79,31 @@ public class CategoryController {
 	}
 	
 	@RequestMapping("addCategory")
-	public String addCategory(Category category,Integer pid,String pname,
+	public String addCategory(Category category,Integer parent_id,String pname,
 			HttpSession session,HttpServletRequest request) {
-		boolean err = true;
+		session.removeAttribute("err");
+		String err = "";
 		Category p0 = service.findByCategoryPid(category.getName());
 		Category p1 = service.findByCategoryPid(pname);
 		System.out.println(p0+""+p1);
-		if(p0 != null && p1 != null) {
+		if(p0 == null) {
 			if(pname == null||pname == "") {
-				service.addByCategory(category,pid);
+				service.addByCategory(category,parent_id);
+				err="添加成功";
 			} else {
-				Category cate = new Category();
-				cate.setName(pname);
-				service.addByCategory(cate,-1);
-				Category p = service.findByCategoryPid(pname);
-				service.addByCategory(category, p.getId());
+				if(p1!=null) {
+					err = "所添加的父级栏目已有";
+				} else {					
+					Category cate = new Category();
+					cate.setName(pname);
+					service.addByCategory(cate,-1);
+					Category p = service.findByCategoryPid(pname);
+					service.addByCategory(category, p.getId());
+					err = "添加成功";
+				}
 			}
 		} else {
-			err = false;
+			err = "所添加的子级栏目已有";
 		}
 		List<Category> categoryParent = service.findByCategoryParent();
 		PageInfo<Category> allCategory = service.allCategory(1);
@@ -103,6 +112,35 @@ public class CategoryController {
 		session.setAttribute("start", map.get("start"));
 		session.setAttribute("end", map.get("end"));
 		session.setAttribute("err", err);
+		session.setAttribute("page", 1);
+		session.setAttribute("categoryParent", categoryParent);
+		session.setAttribute("nextpage", allCategory.getNextPage());
+		session.setAttribute("prepage", allCategory.getPrePage());
+		session.setAttribute("pagecount", allCategory.getNavigatepageNums());
+		session.setAttribute("category", allCategory.getList());
+		return "admin/index";
+	}
+	
+	@RequestMapping("updateCategory")
+	public String updateCategory(Category category,Integer parent_id,String pname,Integer id,
+			HttpSession session,HttpServletRequest request) {
+		Category cates = new Category();
+		System.out.println(category);
+		if(pname=="") {			
+			cates.setId(parent_id);
+		} else {			
+			cates.setId(parent_id);
+			cates.setName(pname);
+			service.updateByCategory(cates);
+		}
+		category.setCate(cates);
+		service.updateByCategory(category);
+		List<Category> categoryParent = service.findByCategoryParent();
+		PageInfo<Category> allCategory = service.allCategory(1);
+		saverPage saverPage = new saverPage();
+		Map<String, Integer> map = saverPage.StartAndEnd(allCategory, 1, 5);
+		session.setAttribute("start", map.get("start"));
+		session.setAttribute("end", map.get("end"));
 		session.setAttribute("page", 1);
 		session.setAttribute("categoryParent", categoryParent);
 		session.setAttribute("nextpage", allCategory.getNextPage());

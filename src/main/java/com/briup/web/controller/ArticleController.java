@@ -146,7 +146,7 @@ public class ArticleController {
 		session.setAttribute("pagecount", pageInfo.getNavigatepageNums());
 		session.setAttribute("page", id);
 		session.setAttribute("list", pageInfo.getList());
-		return "redirect:/showUserArticles?id="+id;
+		return "index";
 	}
 	
 	@RequestMapping("manger")
@@ -175,7 +175,7 @@ public class ArticleController {
 			name=null;
 		}
 		PageInfo<Article> pageInfo = service.AllArticle(id, state, name,page);
-		List<Category> categorys = cservice.findByCategorys();
+		List<Category> categorys = cservice.findByCategoryChildren();
 		saverPage saverPage = new saverPage();
 		Map<String, Integer> map = saverPage.StartAndEnd(pageInfo, page, 5);
 		session.setAttribute("start", map.get("start"));
@@ -195,7 +195,15 @@ public class ArticleController {
 	public String updateArticleManger(Integer id,Integer st,Integer page,Integer cid,Integer state,String name,
 			HttpSession session,HttpServletRequest request) {
 		service.updateByClickTimes(null, st, id);
-		return "redirect:/showArticleCheck?id="+cid+"&state="+state+"&name="+name+"&page="+page;
+		if(cid==null) {
+			List<UserReport> list = userreportservice.findByUserReportArticleId(id);
+			for (UserReport userReport : list) {
+				userreportservice.updateByProcess(userReport,st);
+			}
+			return "redirect:/showReportCheck?name="+name+"&page="+page;
+		} else {
+			return "redirect:/showArticleCheck?id="+cid+"&state="+state+"&name="+name+"&page="+page;
+		}
 	}
 	
 }

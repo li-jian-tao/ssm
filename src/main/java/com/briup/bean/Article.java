@@ -15,13 +15,14 @@ public class Article implements Serializable {
 	private Integer clickTimes;
 	private Integer type;
 	private Integer state;
+	private Integer reportNum;
 	private User user;
 	private Category category;
 	public Article() {
 	}
 	
 	public Article(Integer id, String title, String summary, String content, Timestamp releaseDate, Integer clickTimes,
-			Integer type, Integer state, User user, Category category) {
+			Integer type, Integer state,Integer reportNum, User user, Category category) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -31,6 +32,7 @@ public class Article implements Serializable {
 		this.clickTimes = clickTimes;
 		this.type = type;
 		this.state = state;
+		this.reportNum = reportNum;
 		this.user = user;
 		this.category = category;
 	}
@@ -88,6 +90,12 @@ public class Article implements Serializable {
 	public void setState(Integer state) {
 		this.state = state;
 	}
+	public Integer getReportNum() {
+		return reportNum;
+	}
+	public void setReportNum(Integer reportNum) {
+		this.reportNum = reportNum;
+	}
 	public User getUser() {
 		return user;
 	}
@@ -105,7 +113,7 @@ public class Article implements Serializable {
 	public String toString() {
 		return "Article [id=" + id + ", title=" + title + ", summary=" + summary + ", content=" + content
 				+ ", releaseDate=" + releaseDate + ", clickTimes=" + clickTimes + ", type=" + type + ", state=" + state
-				+ ", user=" + user + ", category=" + category + "]";
+				+ ", reportNum=" + reportNum + ", user=" + user + ", category=" + category + "]";
 	}
 	
 }

@@ -73,8 +73,8 @@
         <div class="templatemo-content-widget white-bg col-2 model">
             <i class="fa fa-times" onclick="modelHidden()"></i>
             <div class="table-responsive">
-                <form action="addUserReportState">
-                    <input type="hidden" name="articleId" value="${article.id }">
+                <form action="addUserReportState" id="addUserReportState" method="post">
+                    <input type="hidden" class="form-control" name="articleId" value="${article.id }">
                     <div class="form-group">
                         <input type="checkbox" name="box" value="抄袭">抄袭，内容并非原创
                     </div>
@@ -91,7 +91,7 @@
                         <textarea class="form-control" name="content" rows="5" cols="20" style="width: 100%;resize:none;"></textarea>
                     </div>
                     <div class="form-group">
-                        <input onclick="report(${article.id })" class="btn btn-info" type="submit" value="举报" style="float: right;">
+                        <button id="addate" type="button" class="btn  btn-success addBtn" onclick="report()">举报</button>
                     </div>
                 </form>
             </div>
@@ -101,6 +101,28 @@
 </div>
 <script src="js/jquery-1.11.0.min.js"></script>
 <script>
+
+    function report(){
+    	var List=new Array();
+         $('input[name="box"]:checked').each(function(){
+             List.push($(this).val());//向数组中添加元素
+         });
+        var $content = $("textarea[name=content]").val();
+        if(List == '') {
+            alert("举报类型未选择！");
+            $('.report').show();
+            return;
+        }
+        else if($content == '') {
+            alert("举报内容未填写！");
+            $('.report').show(); 
+            return;
+        }
+        else {
+            alert("tijiao");
+            $('#addUserReportState').submit();
+        }
+    }
     // 举报模态框
     $('.report_btn').click(function() {
         $('.report').show();

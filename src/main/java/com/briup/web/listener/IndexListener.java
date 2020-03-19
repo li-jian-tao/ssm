@@ -10,7 +10,6 @@ import javax.servlet.annotation.WebListener;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.briup.bean.Category;
-import com.briup.service.Impl.IArticleService;
 import com.briup.service.Impl.ICategoryService;
 
 @WebListener
@@ -18,9 +17,6 @@ public class IndexListener implements ServletContextListener {
 	
 	@Autowired
 	private ICategoryService categoryservice;
-	
-//	@Autowired
-//	private IArticleService articleService;
 	
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {

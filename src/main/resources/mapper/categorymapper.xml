@@ -37,6 +37,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where "parent_id" is null
     </select>
     
+    <!-- List<Category> findByCategoryChildren(); -->
+    <select id="findByCategoryChildren" resultType="Category">
+        select *
+        from "category"
+        where "parent_id" is not null
+    </select>
+    
     <!-- Category findByCategoryPid(String name); -->
     <select id="findByCategoryPid" parameterType="java.lang.String"
         resultType="com.briup.bean.Category">
@@ -90,11 +97,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         values(#{id},#{name,jdbcType=VARCHAR},#{description,jdbcType=VARCHAR},#{cate.id,jdbcType=NUMERIC})
     </insert>
     
-    <!-- void updateByCategory(Integer times); -->
-    <update id="updateByClickTimes" parameterType="java.lang.Integer">
-        update "article" 
-        set "clickTimes" = #{times} 
-        where "id" = #{id}
+    <!-- void updateByCategory(Category category); -->
+    <update id="updateByCategory" parameterType="Category">
+        update "category" 
+        set "name" = #{name,jdbcType=VARCHAR},
+                "description" = #{description,jdbcType=VARCHAR},
+                "parent_id" = #{cate.id,jdbcType=NUMERIC}
+        where "id" = #{id,jdbcType=NUMERIC}
     </update>
     
     <!-- void deleteByCategory(Integer cid); -->

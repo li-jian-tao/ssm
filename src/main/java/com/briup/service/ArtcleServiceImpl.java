@@ -61,10 +61,16 @@ public class ArtcleServiceImpl implements IArticleService{
 	}
 
 	@Override
+	public void updateByReportNum(Integer num, Integer id) {
+		dao.updateByReportNum(num, id);
+	}
+
+	@Override
 	public void updateByClickTimes(Integer times,Integer state, Integer id) {
 		if(times != null) {
 			times++;
 		} 
+		System.out.println(times+"-----"+state);
 		dao.updateByClickTimes(times, state, id);
 	}
 
@@ -113,5 +119,6 @@ public class ArtcleServiceImpl implements IArticleService{
 		}
 		System.out.println("结束"+article);
 	}
+
 
 }

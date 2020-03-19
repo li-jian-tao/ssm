@@ -16,5 +16,6 @@ public interface ArticleDao {
 	List<Article> AllArticle(Integer cid,Integer state,String cname);
 	Article findByArticle(Integer id);
 	void updateByClickTimes(Integer times,Integer state,Integer id);
+	void updateByReportNum(Integer num,Integer id);
 	void addByArticle(Article article);
 }

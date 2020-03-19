@@ -7,7 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <!-- Article findByCategoryId(Integer cid); -->
     <select id="findByCategoryId" parameterType="java.lang.Integer" resultMap="rm">
-        select "article"."id","title","clickTimes","nickname"
+        select "article"."id","title","clickTimes","nickname","state"
         from "article","user" 
         where "user"."id"="article"."user_id" and 
         "category_id"=#{cid}
@@ -17,6 +17,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result column="title" property="title" />
         <result column="clickTimes" property="clickTimes" />
         <result column="nickname" property="user.nickname"/>
+        <result column="state" property="state"/>
     </resultMap>
     
     <!-- List<Article> findByHotArticle(); -->
@@ -127,15 +128,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <!-- void updateByClickTimes(Integer times,Integer state,Integer id); -->
     <update id="updateByClickTimes" parameterType="java.lang.Integer">
         update "article" 
-        <set>
-            <if test="times!=null and times!=''">            
-                "clickTimes" = #{times,jdbcType=INTEGER}
+        <trim prefix="set" suffixOverrides=",">
+            <if test="times!=null">            
+                "clickTimes" = #{times,jdbcType=INTEGER},
             </if>
-            <if test="state!=null and state!=''">            
-                "state" = #{state,jdbcType=INTEGER}
+            <if test="state!=null">            
+                "state" = #{state,jdbcType=INTEGER},
             </if>
+        </trim>
         where "id" = #{id,jdbcType=INTEGER}
-        </set>
+    </update>
+    
+    <!-- void updateByReportNum(Integer num,Integer id); -->
+    <update id="updateByReportNum" parameterType="java.lang.Integer">
+        update "article"     
+        set "reportNum" = #{num,jdbcType=INTEGER}
+        where "id" = #{id,jdbcType=INTEGER}
     </update>
     
     

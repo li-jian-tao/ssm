@@ -1,5 +1,8 @@
 package com.briup.web.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -12,6 +15,8 @@ import com.briup.bean.User;
 import com.briup.bean.UserReport;
 import com.briup.service.Impl.IArticleService;
 import com.briup.service.Impl.IUserReportService;
+import com.briup.util.saverPage;
+import com.github.pagehelper.PageInfo;
 
 @Controller
 public class UserReportController {
@@ -35,10 +40,86 @@ public class UserReportController {
 			userReport.setReportContent(content);
 			userReport.setState(1);
 			service.addUserReport(userReport,box,user,article);
-		} else {
-			session.setAttribute("msg", "内容不能为空");
+			List<UserReport> reportMount = service.findByUserReportArticleId(articleId);
+			aservice.updateByReportNum(reportMount.size(), articleId);
+			aservice.updateByClickTimes(null, 99, articleId);
 		}
 		session.setAttribute("userReport", userReport);
 		return "index";
+	}
+	
+	@RequestMapping("showUserReports")
+	public String showUserReports(Integer id,
+			HttpSession session,HttpServletRequest request) {
+		User user = (User) session.getAttribute("user");
+		PageInfo<UserReport> pageInfo = service.findAllUserReport(user.getId(), id);
+		saverPage saverPage = new saverPage();
+		Map<String, Integer> map = saverPage.StartAndEnd(pageInfo, id, 5);
+		session.setAttribute("start", map.get("start"));
+		session.setAttribute("end", map.get("end"));
+		session.setAttribute("nextpage", pageInfo.getNextPage());
+		session.setAttribute("prepage", pageInfo.getPrePage());
+		session.setAttribute("pagecount", pageInfo.getNavigatepageNums());
+		session.setAttribute("page", id);
+		session.setAttribute("list", pageInfo.getList());
+		return "user/myreport";			
+	}
+	
+	@RequestMapping("findReport")
+	public String findReport(Integer id,Integer page,
+			HttpSession session,HttpServletRequest request) {
+		UserReport userReport = service.findByUserReportId(id);
+		String[] strings = userReport.getReportType().split(",");
+		session.setAttribute("userReport", userReport);
+		session.setAttribute("strings", strings);
+		System.out.println(userReport);
+		return "redirect:/showUserReports?id="+page;			
+	}
+	
+	@RequestMapping("checkReport")
+	public String checkReport(Integer id,Integer page,
+			HttpSession session,HttpServletRequest request) {
+		List<UserReport> content = service.findByUserReportArticleId(id);
+		System.out.println("report尺度"+page);
+		int str1 = 0,str2 = 0,str3 = 0,str4 = 0;
+		for (UserReport userReport : content) {
+			String[] split = userReport.getReportType().split(",");
+			if(split!=null) {
+				for (String str : split) {
+					if(str.equals("抄袭")) {
+						str1++;
+					}else if(str.equals("色情")) {
+						str2++;
+					}else if(str.equals("暴力")) {
+						str3++;
+					}else if(str.equals("反动")) {
+						str4++;
+					}
+				}
+			}
+		}
+		session.setAttribute("content", content);
+		session.setAttribute("str1", str1);
+		session.setAttribute("str2", str2);
+		session.setAttribute("str3", str3);
+		session.setAttribute("str4", str4);
+		return "redirect:/showReportCheck?page="+page;			
+	}
+	
+	@RequestMapping("showReportCheck")
+	public String showReportCheck(String name,Integer page,
+			HttpSession session,HttpServletRequest request) {
+		System.out.println("跳进去了"+page);
+		PageInfo<UserReport> pageInfo = service.reportMount(name,page);
+		saverPage saverPage = new saverPage();
+		Map<String, Integer> map = saverPage.StartAndEnd(pageInfo, page, 5);
+		session.setAttribute("start", map.get("start"));
+		session.setAttribute("end", map.get("end"));
+		session.setAttribute("nextpage", pageInfo.getNextPage());
+		session.setAttribute("prepage", pageInfo.getPrePage());
+		session.setAttribute("pagecount", pageInfo.getNavigatepageNums());
+		session.setAttribute("page", page);
+		session.setAttribute("list", pageInfo.getList());
+		return "admin/reportMangar";			
 	}
 }

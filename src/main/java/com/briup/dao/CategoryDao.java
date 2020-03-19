@@ -13,7 +13,9 @@ public interface CategoryDao {
 	List<Category> allCategory();
 	void addByCategory(Category category);
 	List<Category> findByCategoryParent();
+	List<Category> findByCategoryChildren();
 	Category findByCategoryPid(String name);
 	Category findByCategoryId(Integer id);
 	void deleteByCategory(Integer cid);
+	void updateByCategory(Category category);
 }

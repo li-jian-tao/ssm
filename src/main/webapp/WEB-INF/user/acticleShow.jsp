@@ -9,6 +9,7 @@
 </head>
 <body>
 <c:forEach items="${list }" var="list">
+<c:if test="${list.state=='1'||list.state=='2'||list.state=='99' }">
 <div class="templatemo-content-widget orange-bg marginStyle"
     onclick="showDetail(${list.id})">
     <div class="media-body">
@@ -17,6 +18,7 @@
         <p>阅读量：${list.clickTimes }</p>
     </div>
 </div>
+</c:if>
 </c:forEach>
 </body>
 </html>

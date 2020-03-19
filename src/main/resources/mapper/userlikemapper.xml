@@ -15,16 +15,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <!-- List<UserLike> findAllUserLike(Integer uid); -->
     <select id="findAllUserLike" parameterType="java.lang.Integer"
         resultMap="rm">
-        select "user_like"."id","like_date","title"
+        select "user_like"."id","like_date","title","user_like"."state"
         from "user_like","article"
         where "user_like"."article_id"="article"."id" 
         and "user_like"."user_id"=#{uid}
-        and "user_like"."state"=1
+        and ("user_like"."state"=1 or "user_like"."state"=0)
     </select>
     <resultMap type="com.briup.bean.UserLike" id="rm">
         <id column="id" property="id" />
         <result column="like_date" property="likeDate" />
         <result column="title" property="article.title" />
+        <result column="state" property="state" />
     </resultMap>
 
     <!-- void addUserLike(UserLike userLike); -->

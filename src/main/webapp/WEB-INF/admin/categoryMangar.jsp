@@ -8,16 +8,22 @@
 <title>Insert title here</title>
 <script type="text/javascript">
 	function pidchange(){
-		var $pid = $("select[name=pid]").val();
-		if($pid == '-1') {
-	        $("#p").attr("type","text");
+		var $pid = $("select[name=parent_id]").val();
+	    var $onepid = '<%= session.getAttribute("onepid")%>'; 
+		if($pid == '-1'||$pid == $onepid) {
+	        $("#pname").attr("type","text");
 	    } else {
-	    	$("#p").attr("type","hidden");
+	    	$("#pname").attr("type","hidden");
 		}
-	};	
+	}
+	function updateadd(){
+		$('#addCategory').attr('action','updateCategory');
+        $('#addCategory').submit();
+		alert("修改成功");
+    }
    function add() {
         var $name = $("input[name=name]").val();
-        var $pid = $("select[name=pid]").val();
+        var $pid = $("select[name=parent_id]").val();
         var $description = $("input[name=description]").val();
         if($name == '') {
             alert("子栏目未填写！");
@@ -33,29 +39,37 @@
             var $pname = $("input[name=pname]").val();
         }
         var is = '<%= session.getAttribute("isSize")%>'; 
-        if(is!=true&&$pid == '-1'){
+        if(!is){
             alert("所添加的父级栏目超7个");
         } else{
-            $('#addCategory').submit();
+            $("#addCategory").attr("action","addCategory");
+            $("#addCategory").submit();
         }
 	}
    function updateShow() {
        $('#add').show();
        $('#addate').hide();
        $('#update').show();
+       $('#oadd').hide();
+       $('#oupdate').show();
 	}
     function addShow() {
     	 $("input[name=name]").val('');
-         $("select[name=pid]").val('');
+         $("select[name=parent_id]").val('');
          $("input[name=description]").val('');
         $('#add').show();
         $('#addate').show();
         $('#update').hide();
+        $('#oadd').show();
+        $('#oupdate').hide();
     }
     function addHidden() {
         $('#add').hide();
     }
-    
+    var err = '<%= session.getAttribute("err")%>'; 
+    if(err!="null"){
+        alert(err);
+    }
 </script>
 </head>
 <body>
@@ -125,13 +139,10 @@
     <div class="templatemo-content-widget white-bg col-3 model ">
         <i class="fa fa-times" onclick="addHidden()"></i>
         <br>
-        <c:if test="${err == false }">        
-        <br>
-        <h3 style="color: red;">出现重复值</h3>
-        </c:if>
         <br>
         <div class="table-responsive">
-        <form action="addCategory" class="templatemo-login-form" method="post" id="addCategory">
+        <form action="" class="templatemo-login-form" method="post" id="addCategory">
+            <input type="hidden" class="form-control" name="id" value="${oneid }">
             <table class="table">
                 <tbody>
                     <tr>
@@ -143,7 +154,7 @@
                     <tr>
                         <td>父栏目：</td>
                         <td>
-                            <select name="pid" class="form-control"  style="width:100%;" id="pid" onchange="pidchange()">
+                            <select name="parent_id" class="form-control"  style="width:100%;" id="pid" onchange="pidchange()">
 			                     <option value="">请选择父栏目</option>
 			                     <c:forEach items="${categoryParent }" var="parents">
 			                         <c:if test="${onepid==parents.id }">
@@ -153,9 +164,10 @@
 				                        <option value="${parents.id }">${parents.name }</option>
 			                         </c:if>
 			                     </c:forEach>
-			                     <option value="-1">添加其他父栏目</option>
+			                     <option value="-1" id="oadd">添加其他父栏目</option>
+			                     <option value="${onepid }" id="oupdate">修改当前父栏目：${onepname }</option>
 			                 </select>
-			                 <input type="hidden" class="form-control" placeholder="添加一级栏目" id="p"
+			                 <input type="hidden" class="form-control" placeholder="输入父栏目" id="pname"
                             name="pname">
                             </td>
                     </tr>
@@ -167,7 +179,7 @@
                 </tbody>
             </table>
             <button id="addate" type="button" class="btn  btn-success addBtn" onclick="add()">保存</button>
-            <button id="update" type="button" class="btn  btn-success addBtn" onclick="update()">修改并保存</button>
+            <button id="update" type="button" class="btn  btn-success addBtn" onclick="updateadd()">修改并保存</button>
         </form>
         </div>
     </div>

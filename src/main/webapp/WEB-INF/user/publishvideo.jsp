@@ -43,7 +43,6 @@
             <div class="col-lg-6">
                 <label class="control-label templatemo-block">File
                     Input</label>
-                <!-- <input type="file" name="fileToUpload" id="fileToUpload" class="margin-bottom-10"> -->
                 <input type="file" name="fileToUpload" id="fileToUpload"
                     class="filestyle" data-buttonName="btn-primary"
                     data-buttonBefore="true" data-icon="false">

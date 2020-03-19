@@ -15,19 +15,13 @@ $(function(){
 
 	if($('.title').eq(getIndexNum).text().trim()=="个人管理"){
 		$(".templatemo-content").load('showUserInfo');
+		UserMyrelease(1);
 	}
 	if($('.title').eq(getIndexNum).text().trim()=="资讯管理"){
 		$(".templatemo-content").load('manger');
 	}
 	if($('.title').eq(getIndexNum).text().trim()=="栏目管理"){
 		$(".templatemo-content").load('showAllCategory?page=1');
-	}
-
-	if($('.title').eq(getIndexNum).text().trim()=="退出系统"){
-		window.location.href='login';
-		$(this).addClass("active");
-		var num = $(this).index();
-		sessionStorage.setItem("tabLiNum",num);
 	}
 	$('.title').click(function(){
 		// 移除所有标签的active
@@ -54,6 +48,7 @@ $(function(){
 
 		if($(this).text().trim()=="个人管理"){
 			$(".templatemo-content").load('showUserInfo');
+			UserMyrelease(1);
 			$(this).addClass("active");
 			var num = $(this).index();
 			sessionStorage.setItem("tabLiNum",num);
@@ -74,8 +69,6 @@ $(function(){
 		if($(this).text().trim()=="退出系统"){
 			window.location.href='login';
 			$(this).addClass("active");
-			var num = $(this).index();
-			sessionStorage.setItem("tabLiNum",num);
 		}
 	});
 	
@@ -143,6 +136,18 @@ function updateCategory(id){
 	setTimeout("updateShow()",100); 
 }
 
+//查看举报管理
+function checkReport(id,page){
+	$(".showSomething3").load('checkReport?id='+id+'&page='+page);
+	setTimeout("editBtn3()",100);
+}
+
+//查看举报管理
+function findReport(id,page){
+	$(".showUserinfo").load('findReport?id='+id+'&page='+page);
+	setTimeout("editBtn()",100); 
+}
+
 // 点击标题，显示文章详情
 function showDetail(id) {
 	$('.showSomething').load('articleDetail?detail_id='+id);
@@ -172,12 +177,23 @@ function showArticleCheck(page){
 	}
 }
 
+//点击正常举报审核
+function showReportCheck(page){
+	var name = $("#srch-term").val();
+	$('.showSomething3').load('showReportCheck?name='+name+'&page='+page);
+}
+
 //修改正常咨询管理
 function updateState(id,st,page){
 	var cid = $("#sel").val();
 	var state = $("#state").val();
 	var name = $("#srch-term").val();
 	$('.showSomething3').load('updateArticleManger?id='+id+'&st='+st+'&page='+page+'&cid='+cid+'&state='+state+'&name='+name);
+}
+//修改举报咨询管理
+function updateReportState(id,st,page){
+	var name = $("#srch-term").val();
+	$('.showSomething3').load('updateArticleManger?id='+id+'&st='+st+'&page='+page+'&name='+name);
 }
 //点击正常咨询管理
 function showArticleManger(){
@@ -195,4 +211,12 @@ function UserMyrelease(id){
 //点击个人点赞管理，
 function UserMylike(id){
 	$(".showUserinfo").load('showUserLikes?id='+id);
+}
+//点击个人收藏管理，
+function UserMycollection(id){
+	$(".showUserinfo").load('showUserCollections?id='+id);
+}
+//点击个人举报管理，
+function UserMyreport(id){
+	$(".showUserinfo").load('showUserReports?id='+id);
 }

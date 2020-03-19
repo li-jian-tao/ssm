@@ -1,5 +1,7 @@
 package com.briup.web.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -12,6 +14,7 @@ import com.briup.bean.User;
 import com.briup.bean.UserLike;
 import com.briup.service.Impl.IArticleService;
 import com.briup.service.Impl.IUseLikeService;
+import com.briup.util.saverPage;
 import com.github.pagehelper.PageInfo;
 
 @Controller
@@ -59,6 +62,10 @@ public class UserLikeController {
 			HttpSession session,HttpServletRequest request) {
 		User user = (User) session.getAttribute("user");
 		PageInfo<UserLike> pageInfo = service.findAllUserLike(user.getId(), id);
+		saverPage saverPage = new saverPage();
+		Map<String, Integer> map = saverPage.StartAndEnd(pageInfo, id, 5);
+		session.setAttribute("start", map.get("start"));
+		session.setAttribute("end", map.get("end"));
 		session.setAttribute("nextpage", pageInfo.getNextPage());
 		session.setAttribute("prepage", pageInfo.getPrePage());
 		session.setAttribute("pagecount", pageInfo.getNavigatepageNums());

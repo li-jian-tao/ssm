@@ -53,6 +53,12 @@ public class CategoryServiceImpl implements ICategoryService{
 		List<Category> categoryParent = dao.findByCategoryParent();
 		return categoryParent;
 	}
+	
+	@Override
+	public List<Category> findByCategoryChildren() {
+		List<Category> categoryChildren = dao.findByCategoryChildren();
+		return categoryChildren;
+	}
 
 	@Override
 	public Category findByCategoryPid(String name) {
@@ -69,6 +75,11 @@ public class CategoryServiceImpl implements ICategoryService{
 	public Category findByCategoryId(Integer id) {
 		Category category = dao.findByCategoryId(id);
 		return category;
+	}
+
+	@Override
+	public void updateByCategory(Category category) {
+		dao.updateByCategory(category);
 	}
 
 }

@@ -24,7 +24,7 @@
                      <c:if test="${cid!=0 }">                     
                          <option value="0" onclick="showArticleCheck(1)">请选择所属栏目</option>
                      </c:if>
-                     <c:forEach items="${categorys }" var="categorys" begin="6">                     
+                     <c:forEach items="${categorys }" var="categorys">                     
                         <c:if test="${cid==categorys.id }">
                             <option value="${categorys.id }" selected="selected" onclick="showArticleCheck(1)">${categorys.name }</option>
                         </c:if>
@@ -80,20 +80,29 @@
                          <td>${list.user.nickname }</td>
                          <td>${list.releaseDate }</td>
                          <c:if test="${list.state=='0'||list.state==null }">
-                            <td>待审核</td>
+                            <td>待初步审核</td>
                          </c:if>
                          <c:if test="${list.state=='1' }">
-                            <td>审核通过</td>
+                            <td>初步审核通过</td>
                          </c:if>
                          <c:if test="${list.state=='-1' }">
-                            <td>没通过</td>
+                            <td>初步审核没通过</td>
                          </c:if>
-
+                         <c:if test="${list.state=='99'||list.state=='2'||list.state=='-2' }">
+                            <td>举报审核中</td>
+                         </c:if>
+                         <c:if test="${list.state!='99'&&list.state!='2'&&list.state!='-2' }">
                          <td><i class="fa fa-check fa-lg" title="通过" onclick="updateState(${list.id},1,${page })"
                              style="color: green;"></i> <i class="fa fa-times fa-lg"
                              title="不通过" onclick="updateState(${list.id},-1,${page })"
                              style="position: unset; color: red; background: none;"></i></td>
-
+                          </c:if>
+                          <c:if test="${list.state=='99'||list.state=='2'||list.state=='-2' }">
+                          <td><i class="fa fa-check fa-lg" title="通过"
+                             style="color: #bec6be;"></i> <i class="fa fa-times fa-lg"
+                             title="不通过"
+                             style="position: unset; color: #bec6be; background: none;"></i></td>
+                          </c:if>
                      </tr>
                 </c:forEach>
                  </tbody>

@@ -17,5 +17,6 @@ public interface IArticleService {
 	public PageInfo<Article> findByUserPage(Integer uid,Integer page);
 	public Article findByArticle(Integer id);
 	public void updateByClickTimes(Integer times, Integer state, Integer id);
+	public void updateByReportNum(Integer num,Integer id);
 	public void addByArticle(Article article,MultipartFile fileToUpload)throws Exception;
 }
