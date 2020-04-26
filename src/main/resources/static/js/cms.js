@@ -220,3 +220,9 @@ function UserMycollection(id){
 function UserMyreport(id){
 	$(".showUserinfo").load('showUserReports?id='+id);
 }
+//删除正常短信管理
+function deleteNodeDeail(id,page){
+	$('.note').css("display","block");
+    $('.note_back').css("display","block");
+	$('.note').load('deleteNote?id='+id+'&page='+page);
+}

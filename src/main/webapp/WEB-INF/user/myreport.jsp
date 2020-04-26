@@ -10,6 +10,9 @@
     function editBtn() {
         $('.showMyReport').show();
     }
+    function modelHidden() {
+        $('.showMyReport').hide();
+    }
 </script>
 <style type="text/css">
 .model{width:400px;}

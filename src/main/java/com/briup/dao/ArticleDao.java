@@ -18,4 +18,5 @@ public interface ArticleDao {
 	void updateByClickTimes(Integer times,Integer state,Integer id);
 	void updateByReportNum(Integer num,Integer id);
 	void addByArticle(Article article);
+	int selectArticleId();
 }

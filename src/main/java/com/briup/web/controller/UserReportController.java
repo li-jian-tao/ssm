@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.briup.bean.Article;
 import com.briup.bean.User;
+import com.briup.bean.UserNote;
+import com.briup.bean.UserNoteRelated;
 import com.briup.bean.UserReport;
 import com.briup.service.Impl.IArticleService;
+import com.briup.service.Impl.IUserNoteRelatedService;
 import com.briup.service.Impl.IUserReportService;
 import com.briup.util.saverPage;
 import com.github.pagehelper.PageInfo;
@@ -25,6 +28,9 @@ public class UserReportController {
 	
 	@Autowired
 	private IArticleService aservice;
+	
+	@Autowired
+	private IUserNoteRelatedService unservice;
 	
 	@RequestMapping("addUserReportState")
 	public String addUserReport(Integer articleId,String[] box,String content,
@@ -38,11 +44,24 @@ public class UserReportController {
 			userReport.setUser(user);
 			userReport.setArticle(article);
 			userReport.setReportContent(content);
-			userReport.setState(1);
+			userReport.setState(0);
 			service.addUserReport(userReport,box,user,article);
 			List<UserReport> reportMount = service.findByUserReportArticleId(articleId);
 			aservice.updateByReportNum(reportMount.size(), articleId);
 			aservice.updateByClickTimes(null, 99, articleId);
+			UserNoteRelated noteRelated = unservice.findByUserNoteAndArtcle(5, article.getId(), article.getUser().getId());
+			if(noteRelated==null) {
+				UserNote userNote = new UserNote();
+				userNote.setId(5);
+				UserNoteRelated userNoteRelated = new UserNoteRelated();
+				userNoteRelated.setUser(article.getUser());
+				unservice.addByUserNoteRelated(userNoteRelated, userNote, article.getId());
+			}
+			UserNote newuserNote = new UserNote();
+			newuserNote.setId(6);
+			UserNoteRelated newuserNoteRelated = new UserNoteRelated();
+			newuserNoteRelated.setUser(user);
+			unservice.addByUserNoteRelated(newuserNoteRelated, newuserNote, article.getId());
 		}
 		session.setAttribute("userReport", userReport);
 		return "index";

@@ -89,7 +89,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <!-- void updateByProcess(UserReport userReport); -->
     <update id="updateByProcess" parameterType="UserReport">
         update "user_report" 
-        set "process_date" = #{processDate},"process_content" = #{processContent}
+        set "state" = #{state},"process_date" = #{processDate},"process_content" = #{processContent}
         where "id" = #{id}
     </update>
     

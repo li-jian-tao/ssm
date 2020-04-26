@@ -43,7 +43,6 @@ public class UserServiceImpl implements IUserService{
 			throw new Exception("用户名已存在");
 		}
 	}
-
 	
 	@Override
 	public User updateAndFindByAccount(User user,MultipartFile file) throws Exception{
@@ -59,5 +58,16 @@ public class UserServiceImpl implements IUserService{
 		User u = dao.findByAccount(user.getAccount());
 		System.out.println(u);
 		return u;
+	}
+
+	@Override
+	public void updateImage(User user) {
+		dao.updateByAccount(user);
+	}
+
+	@Override
+	public User findByAccount(String Account) {
+		User user = dao.findByAccount(Account);
+		return user;
 	}
 }

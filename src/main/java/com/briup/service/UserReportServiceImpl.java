@@ -93,13 +93,14 @@ public class UserReportServiceImpl implements IUserReportService{
 	public void updateByProcess(UserReport userReport,Integer st) {
 		Timestamp nowDate = date.NowDate();
 		System.out.println("时间打印"+nowDate);	
-		if(st.equals(2)) {			
+		if(st.equals(-2)) {			
 			userReport.setProcessContent("文章已成功处理");
-		} else if(st.equals(-2)) {
+		} else if(st.equals(2)) {
 			userReport.setProcessContent("由于你的举报有误，文章未进行处理");			
 		} else {
 			userReport.setProcessContent("结果暂未处理");	
 		}
+		userReport.setState(1);
 		userReport.setProcessDate(nowDate);
 		dao.updateByProcess(userReport);
 	}

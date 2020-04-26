@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.junit.Test;
+
 public class dateTime {
 	public Timestamp NowDate() {
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -16,5 +18,11 @@ public class dateTime {
 			e.printStackTrace();
 		}
 		return timesdate;
+	}
+	
+	public String ChangeDate(Timestamp date) {
+		String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
+		String[] split = time.split("[\\s-:]+");
+		return split[0]+"年"+split[1]+"月"+split[2]+"日";
 	}
 }

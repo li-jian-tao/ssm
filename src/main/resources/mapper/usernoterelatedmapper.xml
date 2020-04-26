@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace命名空间，指向UserDao全路径 -->
+<mapper namespace="com.briup.dao.UserNoteRelatedDao">
+
+    <!-- List<UserNoteRelated> UserNoteRelatedSize(Integer state,Integer uid); -->
+    <select id="UserNoteRelatedSize" parameterType="java.lang.Integer"
+            resultMap="erm">
+        select *
+        from "user_noterelated"
+        where "user_noterelated"."note_state"=#{state}
+            and "user_noterelated"."user_id"=#{uid}
+    </select>
+
+    <!-- List<UserNoteRelated> findByUserNoteRelatedId(Integer uid); -->
+    <select id="findByUserNoteRelatedId" parameterType="java.lang.Integer"
+            resultMap="erm">
+        select "user_noterelated"."id" unid,"note_date","note_state","user_note"."id" nid,"note_title","note_content",u1."image" oimage,u1."nickname" onickname
+        from "user_noterelated","user" u1,"user" u2,"user_note"
+        where "user_noterelated"."usernote_id"="user_note"."id" 
+            and "user_noterelated"."other_id"=u1."id"
+            and "user_noterelated"."user_id"=u2."id"
+            and u2."id"=#{uid}
+    </select>
+    <resultMap type="com.briup.bean.UserNoteRelated" id="erm">
+        <id column="unid" property="id" />
+        <result column="note_date" property="noteDate" />
+        <result column="note_state" property="state" />
+        <result column="nid" property="userNote.id" />
+        <result column="note_title" property="userNote.title" />
+        <result column="note_content" property="userNote.content" />
+        <result column="oimage" property="other.image" />
+        <result column="onickname" property="other.nickname" />
+    </resultMap>
+    
+    <!-- UserNoteRelated findByUserNoteAndArtcle(Integer unid,Integer aid,Integer uid); -->
+    <select id="findByUserNoteAndArtcle" parameterType="java.lang.Integer"
+            resultType="com.briup.bean.UserNoteRelated">
+        select *
+        from "user_noterelated"
+        where "user_noterelated"."usernote_id"=#{unid}
+            and "user_noterelated"."article_id"=#{aid}
+            and "user_noterelated"."user_id"=#{uid}
+    </select>
+    
+    <!-- UserNoteRelated findByUserNoteId(Integer id); -->
+    <select id="findByUserNoteId" parameterType="java.lang.Integer"
+            resultMap="frm">
+        select "user_noterelated"."id" unid,"note_date","note_state","user_note"."id" nid,"note_title","note_content","article_id",u1."image" oimage,u1."nickname" onickname,u2."nickname" unickname
+        from "user_noterelated","user" u1,"user" u2,"user_note"
+        where "user_noterelated"."usernote_id"="user_note"."id"
+            and "user_noterelated"."other_id"=u1."id"
+            and "user_noterelated"."user_id"=u2."id"
+            and "user_noterelated"."id"=#{id}
+    </select>
+    <resultMap type="com.briup.bean.UserNoteRelated" id="frm">
+        <id column="unid" property="id" />
+        <result column="note_date" property="noteDate" />
+        <result column="note_state" property="state" />
+        <result column="nid" property="userNote.id" />
+        <result column="note_title" property="userNote.title" />
+        <result column="note_content" property="userNote.content" />
+        <result column="article_id" property="article.id" />
+        <result column="oimage" property="other.image" />
+        <result column="onickname" property="other.nickname" />
+        <result column="unickname" property="user.nickname" />
+    </resultMap>
+
+    <!-- void addByUserNoteRelatedPack(UserNoteRelated userNoteRelated); -->
+    <insert id="addByUserNoteRelatedPack" parameterType="UserNoteRelated">
+        
+        <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+            select noterelated_sequence.nextval from dual
+        </selectKey>
+        insert into "user_noterelated"("id","note_date","note_state","usernote_id","user_id","other_id")
+        values(#{id},#{noteDate},#{state},#{userNote.id},#{user.id},#{other.id})
+    </insert>
+
+   <!-- void addByUserNoteRelated(UserNoteRelated userNoteRelated); -->
+    <insert id="addByUserNoteRelated" parameterType="UserNoteRelated">
+        
+        <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+            select noterelated_sequence.nextval from dual
+        </selectKey>
+        insert into "user_noterelated"("id","note_date","note_state","article_id","usernote_id","user_id","other_id")
+        values(#{id},#{noteDate},#{state},#{article.id},#{userNote.id},#{user.id},#{other.id})
+    </insert>
+    
+    <!-- void updateByNoteState(int state,int nid); -->
+    <update id="updateByNoteState" parameterType="java.lang.Integer">
+       update "user_noterelated" 
+       set "note_state"=#{state}
+       where "id"=#{nid}
+    </update>
+    
+    <!-- void deleteNote(Integer nid); -->
+    <delete id="deleteNote" parameterType="java.lang.Integer">  
+        delete from "user_noterelated" where "id" = #{nid}  
+    </delete> 
+    
+</mapper>

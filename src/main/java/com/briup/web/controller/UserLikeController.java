@@ -13,7 +13,7 @@ import com.briup.bean.Article;
 import com.briup.bean.User;
 import com.briup.bean.UserLike;
 import com.briup.service.Impl.IArticleService;
-import com.briup.service.Impl.IUseLikeService;
+import com.briup.service.Impl.IUserLikeService;
 import com.briup.util.saverPage;
 import com.github.pagehelper.PageInfo;
 
@@ -21,7 +21,7 @@ import com.github.pagehelper.PageInfo;
 public class UserLikeController {
 
 	@Autowired
-	private IUseLikeService service;
+	private IUserLikeService service;
 	
 	@Autowired
 	private IArticleService aservice;

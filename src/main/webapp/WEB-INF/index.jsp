@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" isELIgnored="false"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,21 +12,34 @@
 <link href="css/font-awesome.min.css" rel="stylesheet">
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/templatemo-style.css" rel="stylesheet">
+<link href="css/video-js.min.css" rel="stylesheet">
 <link rel="stylesheet" href="css/iconFont/page.css">
+<link rel="stylesheet" href="css/iconFont/note.css">
 <link rel="stylesheet" href="css/iconFont/iconfont.css">
 <script src="js/jquery-1.11.0.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
-<script src="js/flowplayer.min.js" type="text/javascript"></script>
+<script src="js/video.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="js/bootsnav.js"></script>
 <script type="text/javascript" src="js/cms.js"></script>
 <script type="text/javascript">
     function modelShow() {
-        $('.modal').show();
-        $('.modal-backdrop').css("z-index","1040");
+    	$('body').addClass("modal-open");
     }
     function modelHidden() {
-        $('.modal').hide();
-        $('.modal-backdrop').css("z-index","-1040");
+    	$('#myModal').removeClass("in");
+    	$('.modal-backdrop').remove();
+    	$('body').removeClass("modal-open");
+    	$('#myModal').css("display","none");
+    }
+    function note(page) {
+        $('.note').css("display","block");
+        $('.note_back').css("display","block");
+        $('.note').load('showUserNote?page='+page);
+    }
+    
+    function close0() {
+    	$('.note').css("display","none");
+        $('.note_back').css("display","none");
     }
 </script>
 
@@ -35,16 +49,24 @@
     <!-- Left column -->
     <div class="templatemo-flex-row" style="height: 750px;">
         <div class="templatemo-sidebar">
-            <div class="templatemo-site-header ">
-
-                <h2 style="color: #fff;" data-toggle="modal" data-target="#myModal"
-                    onclick="modelShow()">
-                    <i class="fa fa-user fa-fw"></i> ${user.nickname }
+            <div class="templatemo-site-header" style="width:75%;margin:25px 10px;display:inline-block;">
+                <h2 style="color: #fff;" data-toggle="modal" data-target="#myModal">
+                    <i class="fa fa-user fa-fw"></i><a style="color: white;cursor: pointer;">${user.nickname }</a>
                 </h2>
             </div>
+            <div style="width:10%;margin:25px 10px;display:inline-block;position: relative;">
+                <h2 style="color: #fff;">
+                    <i class="fa fa-envelope-o fa-fw" onclick="note(1)"></i>
+                </h2>
+                <a class="state">${size }</a>
+            </div>
             <div class="profile-photo-container">
-                <img src="images/profile-photo.jpg" alt="Profile Photo"
-                    class="img-responsive">
+            <c:if test="${user.image!=null }">
+                <img src="${user.image }" alt="Profile Photo" class="img-responsive" style="height:215px;width:300px;">
+            </c:if>
+            <c:if test="${user.image==null }">
+                <img src="images/profile-photo.jpg" alt="Profile Photo" class="img-responsive" style="height:215px;width:300px;">
+            </c:if>
 
             </div>
 
@@ -110,4 +132,8 @@
         </div>
     </div>
 </div>
+<div class="note" id="note">
+    
+</div>
+<div class="note_back"></div>
 </html>

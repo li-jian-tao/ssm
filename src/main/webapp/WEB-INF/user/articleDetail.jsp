@@ -32,9 +32,14 @@
                 <div align="center">
                     <img src="images/indexnews.jpg">
                 </div>
-                <div style="font-size: 18px; text-indent: 2em; margin-top: 2em;">
-                    ${readFileContent }
-                </div>
+                <c:if test="${type=='doc' }">                
+	                <div style="font-size: 18px; text-indent: 2em; margin-top: 2em;">
+	                    ${readFileContent }
+	                </div>
+                </c:if>
+                <c:if test="${type=='mp4' }">
+         
+                </c:if>
             </div>
 
             <div id="ArticleDetails" style="margin-top: 45px; ">
@@ -43,12 +48,12 @@
                     <img alt="" src="${comment.user.image }" width="26" height="26">
                     ${comment.user.nickname }   ${comment.userComment.commentDate }
                     <div class="articleOp">
-	                    <!-- 向右浮动 -->
+                        <!-- 向右浮动 -->
                         <div style="font-size: 11px; ">${comment.userComment.commentTimes }</div>
-	                    <c:if test="${comment.commentaryState==null }">
-	                       <i onclick="comment(${comment.userComment.id},1)" class="fa fa-thumbs-up fa-lg fa-2x" style="cursor: pointer; font-size: 1em;"></i> 
-	                    </c:if>
-	                    <c:if test="${comment.commentaryState==1 }">
+                        <c:if test="${comment.commentaryState==null }">
+                           <i onclick="comment(${comment.userComment.id},1)" class="fa fa-thumbs-up fa-lg fa-2x" style="cursor: pointer; font-size: 1em;"></i> 
+                        </c:if>
+                        <c:if test="${comment.commentaryState==1 }">
                            <i onclick="comment(${comment.userComment.id},2)" class="fa fa-thumbs-up fa-lg fa-2x" style="cursor: pointer; font-size: 1em; color: red;"></i> 
                         </c:if>
                         <c:if test="${comment.commentaryState==2 }">
@@ -62,9 +67,9 @@
                 <div style="width:92%; height: 2px; background: red; margin: 10px auto; "></div>
                 </c:forEach>
             </div>
-	            <input type="text" name="commenttext" class="form-control" id="signinInputName"
-	               value="说说自己的看法" style="width: 90%; float: reft; ">
-	            <input class="btn btn-info save" type="button" value="发表" id="save">
+                <input type="text" name="commenttext" class="form-control" id="signinInputName"
+                   value="说说自己的看法" style="width: 90%; float: reft; ">
+                <input class="btn btn-info save" type="button" value="发表" id="save">
         </div>
     </div>
     <c:if test="${userReport.state==0||userReport==null }">
@@ -103,7 +108,7 @@
 <script>
 
     function report(){
-    	var List=new Array();
+        var List=new Array();
          $('input[name="box"]:checked').each(function(){
              List.push($(this).val());//向数组中添加元素
          });
@@ -123,6 +128,11 @@
             $('#addUserReportState').submit();
         }
     }
+
+    function modelHidden(){
+    	$('.report').hide();
+    }
+    
     // 举报模态框
     $('.report_btn').click(function() {
         $('.report').show();
@@ -187,7 +197,7 @@
 
     $(".save").click(function(){
         var comment = $("#signinInputName").val();
-    	$('.showSomething').load('addUserComment?articleid=' + ${article.id} + '&commenttext=' + comment);    
+        $('.showSomething').load('addUserComment?articleid=' + ${article.id} + '&commenttext=' + comment);    
 
 
     });

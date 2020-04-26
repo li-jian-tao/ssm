@@ -55,6 +55,7 @@ function modelHidden() {
                     <li class="title active"><i class="fa fa-home fa-fw "></i>主页</li>
                     <li class="title"><i class="fa fa-bar-chart fa-fw"></i>资讯管理</li>
                     <li class="title"><i class="fa fa-tasks fa-fw"></i>栏目管理</li>
+                    <li class="title"><i class="fa fa-envelope-o fa-fw"></i>短信管理</li>
                     <li class="title"><i class="fa fa-sign-out fa-fw"></i>退出系统</li>
                 </ul>
             </div>
@@ -87,7 +88,7 @@ function modelHidden() {
     </div>
     <!-- footer -->
     <footer class="text-center">
-        <p>Copyright &copy; 2019.briup-看点资讯.Company name All rights
+        <p>Copyright &copy; 2019.大学生看点资讯.Company name All rights
             reserved.</p>
     </footer>
 </body>

@@ -19,4 +19,5 @@ public interface IArticleService {
 	public void updateByClickTimes(Integer times, Integer state, Integer id);
 	public void updateByReportNum(Integer num,Integer id);
 	public void addByArticle(Article article,MultipartFile fileToUpload)throws Exception;
+	public int selectArticleId();
 }

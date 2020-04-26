@@ -8,13 +8,13 @@ import org.springframework.stereotype.Service;
 
 import com.briup.bean.UserLike;
 import com.briup.dao.UserLikeDao;
-import com.briup.service.Impl.IUseLikeService;
+import com.briup.service.Impl.IUserLikeService;
 import com.briup.util.dateTime;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 @Service
-public class UserLikeServiceImpl implements IUseLikeService{
+public class UserLikeServiceImpl implements IUserLikeService{
 
 	@Autowired
 	private UserLikeDao dao;

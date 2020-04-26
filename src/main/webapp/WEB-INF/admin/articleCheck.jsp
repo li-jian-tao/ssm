@@ -110,16 +110,15 @@
          </div>
          <div class="page-icon">
             <a class="page-next" onclick="showArticleCheck(${prepage })">上一页</a>
-            <c:forEach var="pages" begin="${start }" end="${end }">
-                <c:if test="${page==pages }">
-                  <a onclick="showAllCategory(${pages })" style="color:#fff;background: #61ae82;">${pages }</a>
+            <c:forEach items="${pagecount }" var="pages">
+                  <c:if test="${page==pages }">                
+                  <a onclick="showArticleCheck(${pages })" style="color:#fff;background: #61ae82;">${pages }</a>
                 </c:if>
-                <c:if test="${page!=pages }">
-                  <a onclick="showAllCategory(${pages })">${pages }</a>
-                </c:if>                
+                <c:if test="${page!=pages }">   
+                  <a onclick="showArticleCheck(${pages })">${pages }</a>
+                  </c:if>
             </c:forEach>
             <a class="page-next" onclick="showArticleCheck(${nextpage })">下一页<i></i></a>
-        </div>
      </div>
 </body>
 </html>

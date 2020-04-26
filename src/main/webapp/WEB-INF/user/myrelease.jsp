@@ -118,8 +118,8 @@ function add() {
                         <td>
                             <select name="category_id" class="form-control"  style="width:100%;" id="pid" onchange="pidchange()">
                                  <option value="">请选择文章类型</option>
-                                 <c:forEach items="${categorys }" var="parents">
-                                     <option value="${parents.id }">${parents.name }</option>
+                                 <c:forEach items="${children }" var="children">
+                                     <option value="${children.id }">${children.name }</option>
                                  </c:forEach>
                              </select>
                         </td>

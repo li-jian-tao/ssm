@@ -91,7 +91,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <!-- Article findByArticle(Integer id); -->
     <select id="findByArticle" parameterType="java.lang.Integer"
             resultMap="grm">
-        select "article"."id","title","summary","content","clickTimes","releaseDate","state","nickname","category_id"
+        select "article"."id","title","summary","content","clickTimes","releaseDate","state","user_id","nickname","category_id"
         from "article","user" 
         where "user"."id"="article"."user_id" 
             and "article"."id"=#{id}
@@ -104,6 +104,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result column="clickTimes" property="clickTimes" />
         <result column="releaseDate" property="releaseDate" />
         <result column="state" property="state" />
+        <result column="user_id" property="user.id" />      
         <result column="category_id" property="category.id" />      
         <result column="nickname" property="user.nickname"/>
     </resultMap>
@@ -114,6 +115,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select "id","title","summary","releaseDate","state" 
         from "article" 
         where "user_id"=#{uid}      
+    </select>
+    
+    <!-- Int selectArticleId(); -->
+    <select id="selectArticleId"
+            resultType="java.lang.Integer">
+       select article_sequence.currval from dual   
     </select>
     
     <!-- void addByArticle(Article article); -->

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace命名空间，指向UserDao全路径 -->
+<mapper namespace="com.briup.dao.UserNoteDao">
+
+   <!-- void addByUserNote(UserNote userNote); -->
+    <insert id="addByUserNote" parameterType="UserNote">
+        <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+            select note_sequence.nextval from dual
+        </selectKey>
+        insert into "user_note"("id","note_date","note_title","note_content","note_state","note_type","user_id","other_id")
+        values(#{id},#{noteDate},#{title},#{content},#{state},#{clickTimes},#{state},#{type},#{user.id},#{other.id})
+    </insert>
+    
+</mapper>

@@ -17,13 +17,17 @@ import com.briup.bean.User;
 import com.briup.bean.UserCollection;
 import com.briup.bean.UserCommentary;
 import com.briup.bean.UserLike;
+import com.briup.bean.UserNote;
+import com.briup.bean.UserNoteRelated;
 import com.briup.bean.UserReport;
 import com.briup.service.Impl.IArticleService;
 import com.briup.service.Impl.ICategoryService;
-import com.briup.service.Impl.IUseLikeService;
+import com.briup.service.Impl.IUserLikeService;
+import com.briup.service.Impl.IUserNoteRelatedService;
 import com.briup.service.Impl.IUserCollectionService;
 import com.briup.service.Impl.IUserCommentaryService;
 import com.briup.service.Impl.IUserReportService;
+import com.briup.util.dateTime;
 import com.briup.util.document;
 import com.briup.util.saverPage;
 import com.github.pagehelper.PageInfo;
@@ -38,7 +42,10 @@ public class ArticleController {
 	private ICategoryService cservice;
 	
 	@Autowired
-	private IUseLikeService userlikeservice;
+	private IUserNoteRelatedService usernoterelatedservice;
+	
+	@Autowired
+	private IUserLikeService userlikeservice;
 	
 	@Autowired
 	private IUserCollectionService usercollectionservice;
@@ -86,9 +93,17 @@ public class ArticleController {
 			HttpSession session,HttpServletRequest request) {
 		Article article = service.findByArticle(detail_id);
 		String path="G:\\v\\video\\";
-		document document = new document();
-		List<String> readFileContent = document.readFileContent(path+article.getContent());
-		session.setAttribute("readFileContent", readFileContent);
+		String name=article.getContent();
+		String suffix = name.substring(name.lastIndexOf(".") + 1);
+		if(suffix.equals("doc")||suffix.equals("docx")) {			
+			document document = new document();
+			List<String> readFileContent = document.readFileContent(path+name);
+			session.setAttribute("readFileContent", readFileContent);
+			session.setAttribute("type", "doc");
+		} else if(suffix.equals("mp4")||suffix.equals("wmv")) {
+			session.setAttribute("type", "mp4");
+			session.setAttribute("readFileContent", path+name);
+		}
 		service.updateByClickTimes(article.getClickTimes(), null, detail_id);
 		User user = (User) session.getAttribute("user");
 		UserLike userLike = userlikeservice.findByUserLike(user.getId(), article.getId());
@@ -107,6 +122,7 @@ public class ArticleController {
 	public String showUserArticles(Integer id,
 			HttpSession session,HttpServletRequest request) {
 		User user = (User) session.getAttribute("user");
+		List<Category> children = cservice.findByCategoryChildren();
 		PageInfo<Article> pageInfo = service.findByUserPage(user.getId(), id);
 		saverPage saverPage = new saverPage();
 		Map<String, Integer> map = saverPage.StartAndEnd(pageInfo, id, 5);
@@ -117,6 +133,7 @@ public class ArticleController {
 		session.setAttribute("pagecount", pageInfo.getNavigatepageNums());
 		session.setAttribute("page", id);
 		session.setAttribute("list", pageInfo.getList());
+		session.setAttribute("children", children);
 		return "user/myrelease";	
 	}
 	
@@ -131,6 +148,13 @@ public class ArticleController {
 		String fileName = fileToUpload.getName();
 		String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
 		service.addByArticle(article,fileToUpload);
+		int i = service.selectArticleId();
+		System.out.println("序列号"+i);
+		UserNoteRelated userNoteRelated = new UserNoteRelated();
+		userNoteRelated.setUser(user);
+		UserNote userNote = new UserNote();
+		userNote.setId(2);
+		usernoterelatedservice.addByUserNoteRelated(userNoteRelated,userNote,i);
 		if(suffix.equals("doc")||suffix.equals("docx")) {
 			session.setAttribute("msg", "发布成功");
 		} else {
@@ -194,7 +218,22 @@ public class ArticleController {
 	@RequestMapping("updateArticleManger")
 	public String updateArticleManger(Integer id,Integer st,Integer page,Integer cid,Integer state,String name,
 			HttpSession session,HttpServletRequest request) {
+		Article article = service.findByArticle(id);
+		System.out.println(article);
+		UserNoteRelated userNoteRelated = new UserNoteRelated();
+		userNoteRelated.setUser(article.getUser());
 		service.updateByClickTimes(null, st, id);
+		if(st==1) {
+			UserNote userNote = new UserNote();
+			userNote.setId(3);
+			userNoteRelated.setUserNote(userNote);
+			usernoterelatedservice.addByUserNoteRelated(userNoteRelated, userNote, id);
+		} else if(st==-1) {
+			UserNote userNote = new UserNote();
+			userNote.setId(4);
+			userNoteRelated.setUserNote(userNote);
+			usernoterelatedservice.addByUserNoteRelated(userNoteRelated, userNote, id);
+		}
 		if(cid==null) {
 			List<UserReport> list = userreportservice.findByUserReportArticleId(id);
 			for (UserReport userReport : list) {

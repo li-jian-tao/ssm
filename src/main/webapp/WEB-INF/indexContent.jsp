@@ -9,7 +9,7 @@
 <body>
 
 <div class="templatemo-content-widget no-padding"
-    style="padding: 30px 50px;">
+    style="padding: 30px 50px;overflow-x: auto;">
     <div class="templatemo-flex-row flex-content-row">
         <div class="panel panel-default no-border white-red-bg">
             <div class="panel-heading " align="center">
@@ -21,7 +21,7 @@
                     心中一股冲劲勇闯，抛开那现实没有顾虑，仿佛身边拥有一切，看似与别人筑起隔膜。
                 </h2>
             </div>
-            <div class="panel-body" style="padding: 20px;" align="center">
+            <div class="panel-body" align="center">
                 <img src="images/indexnews.jpg" alt="Sunset"
                     style="width: 900px; height: 480px;">
 
