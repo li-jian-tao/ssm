@@ -92,7 +92,6 @@ $(function(){
 			}
 			// 如果按标题查询，并且输入了查询内容
 			if($type == 'title' && $value != '') {
-				console.log("标题模糊查询");
 				$('.showSomething').load('findArticlesByTitle?title=' + $value);
 			}
 		}
@@ -208,6 +207,11 @@ function UserInfo(){
 function UserMyrelease(id){
 	$(".showUserinfo").load('showUserArticles?id='+id);
 }
+//点击个人浏览记录，
+function UserHistory(){
+	$(".showUserinfo").load('showUserHistory');
+}
+
 //点击个人点赞管理，
 function UserMylike(id){
 	$(".showUserinfo").load('showUserLikes?id='+id);

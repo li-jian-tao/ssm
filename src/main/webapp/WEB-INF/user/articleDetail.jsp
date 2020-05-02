@@ -38,7 +38,11 @@
 	                </div>
                 </c:if>
                 <c:if test="${type=='mp4' }">
-         
+		            <object classid="clsid:22D6F312-B0F6-11D0-94AB-0080C74C7E95" height="320" id="MediaPlayer1" width="310">
+				     <br><param name="AutoStart" value="-1">
+				    <param name="ShowStatuBar" value="-1">
+				    <param name="Filename" value="${readFileContent }">
+				    </object>
                 </c:if>
             </div>
 

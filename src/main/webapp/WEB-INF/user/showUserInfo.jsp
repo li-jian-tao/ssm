@@ -14,7 +14,7 @@
                 <ul class="text-uppercase">
                     <li class="secondTitle" onclick="UserInfo()" style="cursor: pointer;">个人信息</li>
                     <li class="active secondTitle" onclick="UserMyrelease(1)" style="cursor: pointer;">我的发布</li>
-                    <li class="secondTitle"><a href="browshistory.html">浏览记录</a></li>
+                    <li class="secondTitle" onclick="UserHistory()" style="cursor: pointer;">浏览记录</li>
                     <li class="secondTitle" onclick="UserMylike(1)" style="cursor: pointer;">我的点赞</li>
                     <li class="secondTitle" onclick="UserMycollection(1)" style="cursor: pointer;">我的收藏</li>
                     <li class="secondTitle" onclick="UserMyreport(1)" style="cursor: pointer;">我的举报</li>

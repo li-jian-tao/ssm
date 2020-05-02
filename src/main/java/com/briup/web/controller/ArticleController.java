@@ -16,6 +16,7 @@ import com.briup.bean.Category;
 import com.briup.bean.User;
 import com.briup.bean.UserCollection;
 import com.briup.bean.UserCommentary;
+import com.briup.bean.UserHistory;
 import com.briup.bean.UserLike;
 import com.briup.bean.UserNote;
 import com.briup.bean.UserNoteRelated;
@@ -26,8 +27,8 @@ import com.briup.service.Impl.IUserLikeService;
 import com.briup.service.Impl.IUserNoteRelatedService;
 import com.briup.service.Impl.IUserCollectionService;
 import com.briup.service.Impl.IUserCommentaryService;
+import com.briup.service.Impl.IUserHistoryService;
 import com.briup.service.Impl.IUserReportService;
-import com.briup.util.dateTime;
 import com.briup.util.document;
 import com.briup.util.saverPage;
 import com.github.pagehelper.PageInfo;
@@ -55,6 +56,9 @@ public class ArticleController {
 	
 	@Autowired
 	private IUserCommentaryService usercommentaryservice;
+	
+	@Autowired
+	private IUserHistoryService userhistoryservice;
 	
 	@RequestMapping("showHotArticle")
 	public String showHotArticle(
@@ -110,6 +114,10 @@ public class ArticleController {
 		UserCollection userCollection = usercollectionservice.findByUserCollection(user.getId(), article.getId());
 		UserReport userReport = userreportservice.findByUserReport(user.getId(), article.getId());
 		List<UserCommentary> allUserComment = usercommentaryservice.allUserCommentary(user.getId(),article.getId());
+		Category category = new Category();
+		category.setId(article.getCategory().getId());
+		UserHistory userHistory = new UserHistory(user, article, category);
+		userhistoryservice.addUserHistory(userHistory);
 		session.setAttribute("userLike", userLike);
 		session.setAttribute("userCollection", userCollection);
 		session.setAttribute("userReport", userReport);

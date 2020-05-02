@@ -11,11 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.briup.bean.Article;
-import com.briup.bean.User;
-import com.briup.bean.UserNote;
-import com.briup.bean.UserNoteRelated;
 import com.briup.dao.ArticleDao;
-import com.briup.dao.UserNoteRelatedDao;
 import com.briup.service.Impl.IArticleService;
 import com.briup.util.dateTime;
 import com.github.pagehelper.PageHelper;

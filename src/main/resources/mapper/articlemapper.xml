@@ -38,7 +38,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <!-- List<Article> findByArticleTitle(String title); -->
     <select id="findByArticleTitle" parameterType="java.lang.String"
             resultMap="erm">
-        select "article"."id","title","clickTimes","nickname"
+        select "article"."id","title","clickTimes","nickname","state"
         from "article","user" 
         where "user"."id"="article"."user_id" and "title" like '%'||#{title}||'%'
     </select>
@@ -47,12 +47,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result column="title" property="title" />
         <result column="clickTimes" property="clickTimes" />
         <result column="nickname" property="user.nickname"/>
+        <result column="state" property="state"/>
     </resultMap>
     
     <!-- List<Article> findByArticleAuthor(String nickname); -->
     <select id="findByArticleAuthor" parameterType="java.lang.String"
             resultMap="frm">
-        select "article"."id","title","clickTimes","nickname"
+        select "article"."id","title","clickTimes","nickname","state"
         from "article","user" 
         where "user"."id"="article"."user_id" and "user"."nickname" like '%'||#{nickname}||'%'
     </select>
@@ -61,6 +62,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result column="title" property="title" />
         <result column="clickTimes" property="clickTimes" />
         <result column="nickname" property="user.nickname"/>
+        <result column="state" property="state"/>
     </resultMap>
     
     <!-- List<Article> AllArticle(Intager cid,Intager state,String cname); -->

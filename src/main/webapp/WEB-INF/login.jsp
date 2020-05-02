@@ -6,7 +6,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>欢迎光临看点资讯</title>
+<title>欢迎光临大学生资讯平台</title>
 
 <link
     href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,400italic,700'
@@ -52,7 +52,7 @@
             class="templatemo-content-widget templatemo-login-widget white-bg">
             <header class="text-center">
                 <!-- <div class="square"></div> -->
-                <h1>看点资讯登录</h1>
+                <h1>大学生资讯平台登录</h1>
                 <font style="color:red;">${msg }</font>
             </header>
             <div style="color: red; font-size: 14px; margin-bottom: 10px;"

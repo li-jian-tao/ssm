@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace命名空间，指向UserDao全路径 -->
+<mapper namespace="com.briup.dao.UserHistoryDao">
+    
+    <!-- List<UserHistory> findAllUserHistory(Integer uid); -->
+    <select id="findAllUserHistory" parameterType="java.lang.Integer"
+        resultMap="rm">
+        select "user_history"."id","history_date","user_id","article_id","category_id","category"."name" cname
+        from "user_history","category"
+        where "user_history"."category_id"="category"."id"
+            and "user_history"."user_id"=#{uid}
+    </select>
+    <resultMap type="com.briup.bean.UserHistory" id="rm">
+        <id column="id" property="id" />
+        <result column="history_date" property="historyDate" />
+        <result column="user_id" property="user.id" />   
+        <result column="article_id" property="article.id" />     
+        <result column="category_id" property="category.id" /> 
+        <result column="cname" property="category.name" /> 
+    </resultMap>
+
+    <!-- void addUserHistory(UserHistory userHistory); -->
+    <insert id="addUserHistory" parameterType="UserHistory">
+       <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+           select history_sequence.nextval from dual
+       </selectKey>
+       insert into "user_history"("id","history_date","category_id","user_id","article_id")
+       values(#{id},#{historyDate},#{category.id},#{user.id},#{article.id})
+    </insert>
+    
+</mapper>
