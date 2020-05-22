@@ -31,7 +31,6 @@ public class UserNoteRelatedServiceImpl implements IUserNoteRelatedService{
 		other.setId(1);
 		Article article = new Article();
 		article.setId(aid);
-		dateTime dateTime = new dateTime();
 		userNoteRelated.setUserNote(userNote);
 		userNoteRelated.setOther(other);
 		userNoteRelated.setState(0);
@@ -59,10 +58,10 @@ public class UserNoteRelatedServiceImpl implements IUserNoteRelatedService{
 	public UserNoteRelated findByUserNoteId(Integer id) {
 		UserNote userNote = new UserNote();
 		UserNoteRelated userNoteRelated = dao.findByUserNoteId(id);
-		String content = userNoteRelated.getUserNote().getContent();
+		System.out.println(userNoteRelated);
 		Article article = userNoteRelated.getArticle();
-		System.out.println(article);
 		if(article!=null) {
+			String content = userNoteRelated.getUserNote().getContent();
 			Article findByArticle = articleDao.findByArticle(article.getId());
 			String title = findByArticle.getTitle();
 			StringBuilder stringBuilder = new StringBuilder(content);
@@ -81,12 +80,23 @@ public class UserNoteRelatedServiceImpl implements IUserNoteRelatedService{
 			UserNote userNote) {
 		User other = new User();
 		other.setId(1);
-		dateTime dateTime = new dateTime();
 		userNoteRelated.setUserNote(userNote);
 		userNoteRelated.setOther(other);
 		userNoteRelated.setState(0);
 		userNoteRelated.setNoteDate(dateTime.NowDate());
 		dao.addByUserNoteRelatedPack(userNoteRelated);
+	}
+	
+	@Override
+	public void addAllUserNoteRelatedPack(UserNote userNote) {
+		User other = new User();
+		other.setId(1);
+		UserNoteRelated userNoteRelated = new UserNoteRelated();
+		userNoteRelated.setUserNote(userNote);
+		userNoteRelated.setOther(other);
+		userNoteRelated.setState(0);
+		userNoteRelated.setNoteDate(dateTime.NowDate());
+		dao.addAllUserNoteRelatedPack(userNoteRelated);
 	}
 
 	@Override

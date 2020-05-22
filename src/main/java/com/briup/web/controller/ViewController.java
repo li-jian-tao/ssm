@@ -12,7 +12,11 @@ import com.briup.bean.User;
 public class ViewController {
 	
 	@RequestMapping(value = {"login","/"})
-	public String login() {
+	public String login(HttpSession session) {
+//		User user = (User) session.getAttribute("user");
+//		if(user!=null) {
+//			return "index";
+//		}
 		return "login";		
 	}
 	
@@ -73,5 +77,6 @@ public class ViewController {
 	public String categoryMangar() {
 		return "admin/categoryMangar";
 	}
+	
 	
 }

@@ -10,4 +10,5 @@ import com.briup.bean.UserHistory;
 public interface UserHistoryDao {
 	void addUserHistory(UserHistory userHistory);
 	List<UserHistory> findAllUserHistory(Integer uid);
+	List<UserHistory> findHistory(Integer uid,Integer cid,Integer aid);
 }

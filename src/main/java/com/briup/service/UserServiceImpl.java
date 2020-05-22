@@ -1,6 +1,8 @@
 package com.briup.service;
 
 import java.io.File;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.briup.bean.User;
 import com.briup.dao.UserDao;
 import com.briup.service.Impl.IUserService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 @Service
 public class UserServiceImpl implements IUserService{
@@ -69,5 +73,15 @@ public class UserServiceImpl implements IUserService{
 	public User findByAccount(String Account) {
 		User user = dao.findByAccount(Account);
 		return user;
+	}
+
+	@Override
+	public PageInfo<Map<String, Integer>> findAllUserManger(Integer page) {
+		PageHelper.startPage(page,10);
+		System.out.println(page);
+		List<Map<String,Integer>> list = dao.findAllUserManger();
+		PageInfo<Map<String,Integer>> pageInfo = new PageInfo<Map<String,Integer>>(list);
+		System.out.println(pageInfo.getSize()+"hang");
+		return pageInfo;
 	}
 }

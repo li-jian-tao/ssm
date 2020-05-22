@@ -29,20 +29,25 @@
         <div class="panel-body white-red-bg">
 
             <div id="ArticleDetails">
-                <div align="center">
-                    <img src="images/indexnews.jpg">
-                </div>
-                <c:if test="${type=='doc' }">                
+                <c:if test="${type=='doc' }">    
+	                <div align="center">
+	                    <img src="images/indexnews.jpg">
+	                </div>            
 	                <div style="font-size: 18px; text-indent: 2em; margin-top: 2em;">
 	                    ${readFileContent }
 	                </div>
                 </c:if>
                 <c:if test="${type=='mp4' }">
-		            <object classid="clsid:22D6F312-B0F6-11D0-94AB-0080C74C7E95" height="320" id="MediaPlayer1" width="310">
-				     <br><param name="AutoStart" value="-1">
-				    <param name="ShowStatuBar" value="-1">
-				    <param name="Filename" value="${readFileContent }">
-				    </object>
+		            <video id="video" controls preload="auto" width="100%" controls controlsList="nodownload">
+					   <source src="../video/${readFileContent }" type="video/${type }">
+					</video>
+					<form action="download" method="post" >					
+						<input type="hidden" name="url" id="download"
+	                   value="../video/${readFileContent }" style="width: 90%; float: reft; ">
+	                   <input type="hidden" name="aid" id="article"
+                       value="${article.id }" style="width: 90%; float: reft; ">
+						<input class="btn btn-info down" type="submit" value="下载" id="down">
+					</form>
                 </c:if>
             </div>
 
@@ -202,10 +207,7 @@
     $(".save").click(function(){
         var comment = $("#signinInputName").val();
         $('.showSomething').load('addUserComment?articleid=' + ${article.id} + '&commenttext=' + comment);    
-
-
     });
-
 </script>
 </body>
 </html>

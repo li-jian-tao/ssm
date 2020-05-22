@@ -15,7 +15,7 @@ import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 
 
 public class document {
-	public List<String> readFileContent(String filePath) {
+	public static List<String> readFileContent(String filePath) {
 		List<String> linList = new ArrayList<String>();
 		String buffer = "";
 		try {

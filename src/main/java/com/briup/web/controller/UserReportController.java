@@ -72,7 +72,6 @@ public class UserReportController {
 			HttpSession session,HttpServletRequest request) {
 		User user = (User) session.getAttribute("user");
 		PageInfo<UserReport> pageInfo = service.findAllUserReport(user.getId(), id);
-		saverPage saverPage = new saverPage();
 		Map<String, Integer> map = saverPage.StartAndEnd(pageInfo, id, 5);
 		session.setAttribute("start", map.get("start"));
 		session.setAttribute("end", map.get("end"));
@@ -130,7 +129,6 @@ public class UserReportController {
 			HttpSession session,HttpServletRequest request) {
 		System.out.println("跳进去了"+page);
 		PageInfo<UserReport> pageInfo = service.reportMount(name,page);
-		saverPage saverPage = new saverPage();
 		Map<String, Integer> map = saverPage.StartAndEnd(pageInfo, page, 5);
 		session.setAttribute("start", map.get("start"));
 		session.setAttribute("end", map.get("end"));

@@ -4,6 +4,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- namespace命名空间，指向UserDao全路径 -->
 <mapper namespace="com.briup.dao.UserHistoryDao">
+
+    <!-- List<UserHistory> findHistory(Integer uid,Integer cid,Integer aid); -->
+    <select id="findHistory" parameterType="java.lang.Integer"
+        resultType="com.briup.bean.UserHistory">
+        select *
+        from "user_history"
+        where "user_history"."user_id"=#{uid}
+            and "user_history"."category_id"=#{cid}
+            and "user_history"."article_id"=#{aid}
+    </select>
     
     <!-- List<UserHistory> findAllUserHistory(Integer uid); -->
     <select id="findAllUserHistory" parameterType="java.lang.Integer"

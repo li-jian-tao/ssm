@@ -20,6 +20,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result column="state" property="state"/>
     </resultMap>
     
+    <!-- List<Article> allArticle(); -->
+    <select id="allArticle"
+            resultMap="rmaw">
+        select "article"."id","title","clickTimes","user_id","nickname"
+        from "article","user" 
+        where "user"."id"="article"."user_id"
+    </select>
+    <resultMap type="com.briup.bean.Article" id="rmaw">
+        <id column="id" property="id" />
+        <result column="title" property="title" />
+        <result column="clickTimes" property="clickTimes" />
+        <result column="user_id" property="user.id"/>
+        <result column="nickname" property="user.nickname"/>
+    </resultMap>
+    
     <!-- List<Article> findByHotArticle(); -->
     <select id="findByHotArticle"
             resultMap="rmwz">

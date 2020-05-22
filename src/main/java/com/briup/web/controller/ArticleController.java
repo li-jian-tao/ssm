@@ -1,13 +1,22 @@
 package com.briup.web.controller;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,6 +25,7 @@ import com.briup.bean.Category;
 import com.briup.bean.User;
 import com.briup.bean.UserCollection;
 import com.briup.bean.UserCommentary;
+import com.briup.bean.UserDown;
 import com.briup.bean.UserHistory;
 import com.briup.bean.UserLike;
 import com.briup.bean.UserNote;
@@ -27,14 +37,22 @@ import com.briup.service.Impl.IUserLikeService;
 import com.briup.service.Impl.IUserNoteRelatedService;
 import com.briup.service.Impl.IUserCollectionService;
 import com.briup.service.Impl.IUserCommentaryService;
+import com.briup.service.Impl.IUserDownService;
 import com.briup.service.Impl.IUserHistoryService;
 import com.briup.service.Impl.IUserReportService;
+import com.briup.util.CreatePh;
+import com.briup.util.dateTime;
 import com.briup.util.document;
 import com.briup.util.saverPage;
 import com.github.pagehelper.PageInfo;
 
 @Controller
 public class ArticleController {
+	@Value("${videofile.upload-path}")
+	private String path;
+	
+	@Value("${imgfile.upload-path}")
+	private String imgpath;
 
 	@Autowired
 	private IArticleService service;
@@ -59,6 +77,9 @@ public class ArticleController {
 	
 	@Autowired
 	private IUserHistoryService userhistoryservice;
+	
+	@Autowired
+	private IUserDownService userdownservice;
 	
 	@RequestMapping("showHotArticle")
 	public String showHotArticle(
@@ -100,13 +121,12 @@ public class ArticleController {
 		String name=article.getContent();
 		String suffix = name.substring(name.lastIndexOf(".") + 1);
 		if(suffix.equals("doc")||suffix.equals("docx")) {			
-			document document = new document();
 			List<String> readFileContent = document.readFileContent(path+name);
 			session.setAttribute("readFileContent", readFileContent);
 			session.setAttribute("type", "doc");
 		} else if(suffix.equals("mp4")||suffix.equals("wmv")) {
 			session.setAttribute("type", "mp4");
-			session.setAttribute("readFileContent", path+name);
+			session.setAttribute("readFileContent", name);
 		}
 		service.updateByClickTimes(article.getClickTimes(), null, detail_id);
 		User user = (User) session.getAttribute("user");
@@ -114,10 +134,13 @@ public class ArticleController {
 		UserCollection userCollection = usercollectionservice.findByUserCollection(user.getId(), article.getId());
 		UserReport userReport = userreportservice.findByUserReport(user.getId(), article.getId());
 		List<UserCommentary> allUserComment = usercommentaryservice.allUserCommentary(user.getId(),article.getId());
-		Category category = new Category();
-		category.setId(article.getCategory().getId());
-		UserHistory userHistory = new UserHistory(user, article, category);
-		userhistoryservice.addUserHistory(userHistory);
+		List<UserHistory> list = userhistoryservice.findHistory(user.getId(), article.getCategory().getId(), article.getId());
+		if(list.size()==0) {
+			Category category = new Category();
+			category.setId(article.getCategory().getId());
+			UserHistory userHistory = new UserHistory(user, article, category);
+			userhistoryservice.addUserHistory(userHistory);
+		}
 		session.setAttribute("userLike", userLike);
 		session.setAttribute("userCollection", userCollection);
 		session.setAttribute("userReport", userReport);
@@ -132,7 +155,6 @@ public class ArticleController {
 		User user = (User) session.getAttribute("user");
 		List<Category> children = cservice.findByCategoryChildren();
 		PageInfo<Article> pageInfo = service.findByUserPage(user.getId(), id);
-		saverPage saverPage = new saverPage();
 		Map<String, Integer> map = saverPage.StartAndEnd(pageInfo, id, 5);
 		session.setAttribute("start", map.get("start"));
 		session.setAttribute("end", map.get("end"));
@@ -142,7 +164,7 @@ public class ArticleController {
 		session.setAttribute("page", id);
 		session.setAttribute("list", pageInfo.getList());
 		session.setAttribute("children", children);
-		return "user/myrelease";	
+		return "user/myrelease";
 	}
 	
 	@RequestMapping("addByArticle")
@@ -154,7 +176,7 @@ public class ArticleController {
 		article.setUser(user);
 		article.setCategory(category);
 		String fileName = fileToUpload.getName();
-		String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
+//		String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
 		service.addByArticle(article,fileToUpload);
 		int i = service.selectArticleId();
 		System.out.println("序列号"+i);
@@ -163,13 +185,8 @@ public class ArticleController {
 		UserNote userNote = new UserNote();
 		userNote.setId(2);
 		usernoterelatedservice.addByUserNoteRelated(userNoteRelated,userNote,i);
-		if(suffix.equals("doc")||suffix.equals("docx")) {
-			session.setAttribute("msg", "发布成功");
-		} else {
-			session.setAttribute("msg", "上传的文件类型有误");
-		}
+		session.setAttribute("success", "发布成功");
 		PageInfo<Article> pageInfo = service.findByUserPage(user.getId(), id);
-		saverPage saverPage = new saverPage();
 		Map<String, Integer> map = saverPage.StartAndEnd(pageInfo, id, 5);
 		session.setAttribute("start", map.get("start"));
 		session.setAttribute("end", map.get("end"));
@@ -185,7 +202,6 @@ public class ArticleController {
 	public String manger(HttpSession session) {
 		PageInfo<Article> pageInfo = service.AllArticle(0, 0, null, 1);
 		List<Category> categorys = cservice.findByCategorys();
-		saverPage saverPage = new saverPage();
 		Map<String, Integer> map = saverPage.StartAndEnd(pageInfo, 1, 5);
 		session.setAttribute("start", map.get("start"));
 		session.setAttribute("end", map.get("end"));
@@ -208,7 +224,6 @@ public class ArticleController {
 		}
 		PageInfo<Article> pageInfo = service.AllArticle(id, state, name,page);
 		List<Category> categorys = cservice.findByCategoryChildren();
-		saverPage saverPage = new saverPage();
 		Map<String, Integer> map = saverPage.StartAndEnd(pageInfo, page, 5);
 		session.setAttribute("start", map.get("start"));
 		session.setAttribute("end", map.get("end"));
@@ -252,5 +267,62 @@ public class ArticleController {
 			return "redirect:/showArticleCheck?id="+cid+"&state="+state+"&name="+name+"&page="+page;
 		}
 	}
+	
+	@PostMapping("/download")
+	public String downLoad(String url,Integer aid,
+			HttpSession session,HttpServletResponse response) throws UnsupportedEncodingException{
+        String temp[]=url.split("/");
+        String filename=temp[temp.length-1];
+        File file = new File(path+"\\"+filename);
+        System.out.println("开始下载"+path+filename);
+        if(file.exists()){ //判断文件父目录是否存在
+            response.setContentType("application/vnd.ms-excel;charset=UTF-8");
+            response.setCharacterEncoding("UTF-8");
+           // response.setContentType("application/force-download");
+            response.setHeader("Content-Disposition", "attachment;fileName=" +   java.net.URLEncoder.encode(filename,"UTF-8"));
+            byte[] buffer = new byte[1024];
+            FileInputStream fis = null; //文件输入流
+            BufferedInputStream bis = null;
+
+            OutputStream os = null; //输出流
+            try {
+                os = response.getOutputStream();
+                fis = new FileInputStream(file);
+                bis = new BufferedInputStream(fis);
+                int i = bis.read(buffer);
+                while(i != -1){
+                    os.write(buffer);
+                    i = bis.read(buffer);
+                }
+
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            System.out.println("----------file download---" + filename);
+			boolean paths;
+			try {
+				paths = CreatePh.processImg(path,filename,imgpath);
+				if(paths == true) {
+					User user = (User) session.getAttribute("user");
+					Article article = new Article();
+					article.setId(aid);
+					String img = filename.substring(0, filename.lastIndexOf("."));
+					UserDown userDown = new UserDown(dateTime.NowDate(), img+".jpg", 0, article, user);
+					userdownservice.addByUserDown(userDown);
+				}
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+            try {
+                bis.close();
+                fis.close();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
 	
 }

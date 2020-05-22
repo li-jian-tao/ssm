@@ -6,7 +6,7 @@ import java.util.Map;
 import com.github.pagehelper.PageInfo;
 
 public class saverPage {
-	public Map<String,Integer> StartAndEnd(PageInfo<?> allCategory,int page,int pageCount){
+	public static Map<String,Integer> StartAndEnd(PageInfo<?> allCategory,int page,int pageCount){
 		HashMap<String,Integer> map = new HashMap<>();
 		int start = 0;
 		int end = 0;

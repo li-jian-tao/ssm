@@ -119,6 +119,7 @@
                   </c:if>
             </c:forEach>
             <a class="page-next" onclick="showArticleCheck(${nextpage })">下一页<i></i></a>
+        </div>
      </div>
 </body>
 </html>

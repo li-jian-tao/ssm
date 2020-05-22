@@ -14,6 +14,7 @@
 <link href="css/templatemo-style.css" rel="stylesheet">
 <link href="css/video-js.min.css" rel="stylesheet">
 <link rel="stylesheet" href="css/iconFont/page.css">
+<link rel="stylesheet" href="css/iconFont/video.css">
 <link rel="stylesheet" href="css/iconFont/note.css">
 <link rel="stylesheet" href="css/iconFont/iconfont.css">
 <script src="js/jquery-1.11.0.min.js"></script>
@@ -21,7 +22,10 @@
 <script src="js/video.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="js/bootsnav.js"></script>
 <script type="text/javascript" src="js/cms.js"></script>
+<script type="text/javascript" charset="utf-8" src="/ueditor/ueditor.config.js"></script>
 <script type="text/javascript">
+
+
     function modelShow() {
     	$('body').addClass("modal-open");
     }
@@ -41,6 +45,7 @@
     	$('.note').css("display","none");
         $('.note_back').css("display","none");
     }
+    
 </script>
 
 

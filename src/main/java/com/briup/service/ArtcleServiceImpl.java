@@ -1,9 +1,11 @@
 package com.briup.service;
 
 import java.io.File;
-import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,8 +27,6 @@ public class ArtcleServiceImpl implements IArticleService{
 	
 	@Autowired
 	private ArticleDao dao;
-	
-	private dateTime date = new dateTime();
 	
 	@Override
 	public List<Article> findByHotArticle() {
@@ -103,9 +103,8 @@ public class ArtcleServiceImpl implements IArticleService{
 
 	@Override
 	public void addByArticle(Article article,MultipartFile fileToUpload) throws Exception{
-		Timestamp nowDate = date.NowDate();
-		System.out.println("时间打印"+nowDate);	
-		article.setReleaseDate(nowDate);
+		System.out.println("时间打印"+dateTime.NowDate());	
+		article.setReleaseDate(dateTime.NowDate());
 		article.setClickTimes(0);
 		article.setState(0);
 		System.out.println(path);
@@ -124,6 +123,24 @@ public class ArtcleServiceImpl implements IArticleService{
 	public int selectArticleId() {
 		int id = dao.selectArticleId();
 		return id;
+	}
+
+	@Override
+	public Map<Integer,List<Article>> allArticle() {
+		
+		List<Article> allArticle = dao.allArticle();
+		Map<Integer,List<Article>> map = new HashMap<>();
+		for (Article article : allArticle) {
+			Integer id = article.getUser().getId();
+			if(map.keySet().contains(id)) {
+				map.get(id).add(article);
+			} else {
+				List<Article> arrayList = new ArrayList<>();
+				arrayList.add(article);
+				map.put(id, arrayList);
+			}
+		}
+		return map;
 	}
 
 

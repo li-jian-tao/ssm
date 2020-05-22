@@ -13,6 +13,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where "account" = #{account}
 	</select>
 	
+	<!-- List<Map<String,Integer>> findAllUserManger(); -->
+    <select id="findAllUserManger" resultType="java.util.HashMap">
+        select "user"."id","user"."nickname","user"."account","user"."password",COUNT("article"."user_id") "COUNT",SUM("article"."reportNum") "SUM","article"."user_id"
+        from "user","article"
+        where "user"."id"="article"."user_id"(+) and "user"."id"!='1'
+        group by "user"."id","article"."user_id","user"."nickname","user"."account","user"."password"
+    </select>
+	
 	<!-- void saveByUser(User user); -->
 	<insert id="saveByUser" parameterType="User">
 	

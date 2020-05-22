@@ -10,6 +10,7 @@ import com.briup.bean.UserNoteRelated;
 public interface UserNoteRelatedDao {
 	void addByUserNoteRelated(UserNoteRelated userNoteRelated);
 	void addByUserNoteRelatedPack(UserNoteRelated userNoteRelated);
+	void addAllUserNoteRelatedPack(UserNoteRelated userNoteRelated);
 	List<UserNoteRelated> findByUserNoteRelatedId(Integer uid);
 	List<UserNoteRelated> UserNoteRelatedSize(Integer state,Integer uid);
 	UserNoteRelated findByUserNoteId(Integer id);

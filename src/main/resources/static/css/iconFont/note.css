@@ -14,6 +14,10 @@
 	margin: 40px auto;
 	padding: 40px 0;
 }
+.userdown_main{
+    width: 100%;
+    background: white;
+}
 .head{
 	width:100%;
 	border-bottom: 1px solid #222222;
@@ -90,8 +94,11 @@
 	border-radius: 50%;
 	margin: 10px;
 }
+.borderr{
+	border-radius: 0px;
+}
 .tit{
-    width: 500px;
+    width: 400px;
     height: 100px;
     float: left;
 }
@@ -100,18 +107,20 @@
     padding: 30px;
 }
 .date{
-	width:200px;
+	width:250px;
 	height: 100px;
 	float: left;
 }
-.date p{
+.datebox{
+	padding-top: 50px;
+}
+.datebox p{
+	font-family:微软雅黑;
 	font-size: 15px;
-	padding-top: 80px;
 }
 .bu{
-    width: 150px;
-    height: 100px;
-    background: ;
+    width: 100px;
+    height: 99px;
     float: right;
 }
 .note_back{

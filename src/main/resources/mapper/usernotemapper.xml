@@ -10,8 +10,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
             select note_sequence.nextval from dual
         </selectKey>
-        insert into "user_note"("id","note_date","note_title","note_content","note_state","note_type","user_id","other_id")
-        values(#{id},#{noteDate},#{title},#{content},#{state},#{clickTimes},#{state},#{type},#{user.id},#{other.id})
+        insert into "user_note" ("id","note_title","note_content")
+        values(#{id},#{title},#{content})
     </insert>
     
 </mapper>

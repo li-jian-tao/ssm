@@ -18,6 +18,11 @@
 <script src="js/flowplayer.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="js/bootsnav.js"></script>
 <script type="text/javascript" src="js/cms.js"></script>
+        <script type="text/javascript" charset="utf-8" src="ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="ueditor/ueditor.all.min.js"> </script>
+    <!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
+    <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
+    <script type="text/javascript" charset="utf-8" src="ueditor/lang/zh-cn/zh-cn.js"></script>
 <script type="text/javascript">
 function modelShow() {
     $('.modal').show();
@@ -55,6 +60,7 @@ function modelHidden() {
                     <li class="title active"><i class="fa fa-home fa-fw "></i>主页</li>
                     <li class="title"><i class="fa fa-bar-chart fa-fw"></i>资讯管理</li>
                     <li class="title"><i class="fa fa-tasks fa-fw"></i>栏目管理</li>
+                    <li class="title"><i class="fa fa-user fa-fw"></i>用户管理</li>
                     <li class="title"><i class="fa fa-envelope-o fa-fw"></i>短信管理</li>
                     <li class="title"><i class="fa fa-sign-out fa-fw"></i>退出系统</li>
                 </ul>

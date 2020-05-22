@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript">
+<script type="text/javascript"> 
 	function pidchange(){
 		var $pid = $("select[name=parent_id]").val();
 	    var $onepid = '<%= session.getAttribute("onepid")%>'; 

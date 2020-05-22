@@ -1,6 +1,7 @@
 
 $(function(){
 	// 加载 indexContent页面
+	
 	var getIndexNum = sessionStorage.getItem("tabLiNum");
 	$('.title').eq(getIndexNum).addClass('active').siblings().removeClass('active');
 	if($('.title').eq(getIndexNum).text().trim()=="主页"){
@@ -15,13 +16,18 @@ $(function(){
 
 	if($('.title').eq(getIndexNum).text().trim()=="个人管理"){
 		$(".templatemo-content").load('showUserInfo');
-		UserMyrelease(1);
 	}
 	if($('.title').eq(getIndexNum).text().trim()=="资讯管理"){
 		$(".templatemo-content").load('manger');
 	}
 	if($('.title').eq(getIndexNum).text().trim()=="栏目管理"){
 		$(".templatemo-content").load('showAllCategory?page=1');
+	}
+	if($('.title').eq(getIndexNum).text().trim()=="用户管理"){
+		$(".templatemo-content").load('showUserManager?page=1');
+	}
+	if($('.title').eq(getIndexNum).text().trim()=="短信管理"){
+		$(".templatemo-content").load('showNoteMangar');
 	}
 	$('.title').click(function(){
 		// 移除所有标签的active
@@ -65,9 +71,20 @@ $(function(){
 			var num = $(this).index();
 			sessionStorage.setItem("tabLiNum",num);
 		}
-
+		if($(this).text().trim()=="用户管理"){
+			$(".templatemo-content").load('showUserManager?page=1');
+			$(this).addClass("active");
+			var num = $(this).index();
+			sessionStorage.setItem("tabLiNum",num);
+		}
+		if($(this).text().trim()=="短信管理"){
+			$(".templatemo-content").load('showNoteMangar');
+			$(this).addClass("active");
+			var num = $(this).index();
+			sessionStorage.setItem("tabLiNum",num);
+		}
 		if($(this).text().trim()=="退出系统"){
-			window.location.href='login';
+			window.location.href='userLogout';
 			$(this).addClass("active");
 		}
 	});
@@ -206,10 +223,18 @@ function UserInfo(){
 // 点击个人发布管理，
 function UserMyrelease(id){
 	$(".showUserinfo").load('showUserArticles?id='+id);
+	sessionStorage.setItem("tNum","1");
 }
 //点击个人浏览记录，
-function UserHistory(){
-	$(".showUserinfo").load('showUserHistory');
+function UserHistory(date){
+	if(typeof(date) == "undefined"){
+		var day2 = new Date();
+		day2.setTime(day2.getTime());
+		var date2 = day2.getFullYear()+"-" + (day2.getMonth()+1);
+		$(".showUserinfo").load('showUserHistory?date='+date2);
+	}else{
+		$(".showUserinfo").load('showUserHistory?date='+date);
+	}
 }
 
 //点击个人点赞管理，
@@ -224,9 +249,19 @@ function UserMycollection(id){
 function UserMyreport(id){
 	$(".showUserinfo").load('showUserReports?id='+id);
 }
+//点击个人下载管理，
+function UserMydown(id){
+	$(".showUserinfo").load('showUserDown?page=1');
+}
+
 //删除正常短信管理
 function deleteNodeDeail(id,page){
 	$('.note').css("display","block");
     $('.note_back').css("display","block");
 	$('.note').load('deleteNote?id='+id+'&page='+page);
+}
+
+//点击标题，显示用户
+function showUserManager(page) {
+	$(".templatemo-content").load('showUserManager?page='+page);
 }

@@ -1,15 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" isELIgnored="false"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-
+    pageEncoding="UTF-8"%>
+    
 <div class="templatemo-content-widget no-padding"
-    style="padding: 30px 50px;overflow-x: auto;">
+    style="padding: 30px 50px;">
     <div class="templatemo-flex-row flex-content-row">
         <div class="panel panel-default no-border white-red-bg">
             <div class="panel-heading " align="center">
@@ -21,7 +14,7 @@
                     心中一股冲劲勇闯，抛开那现实没有顾虑，仿佛身边拥有一切，看似与别人筑起隔膜。
                 </h2>
             </div>
-            <div class="panel-body" align="center">
+            <div class="panel-body" style="padding: 20px;" align="center">
                 <img src="images/indexnews.jpg" alt="Sunset"
                     style="width: 900px; height: 480px;">
 
@@ -29,5 +22,3 @@
         </div>
     </div>
 </div>
-</body>
-</html>

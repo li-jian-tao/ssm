@@ -5,6 +5,13 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript">
+var getTNum = sessionStorage.getItem("tNum");
+if($('.secondTitle').eq(getTNum).text().trim()=="我的发布"){
+    $(".showUserinfo").load('showUserArticles?id=1');
+}
+
+</script>
 </head>
 <body>
 <div class=" col-1 light-gray-bg">
@@ -18,6 +25,7 @@
                     <li class="secondTitle" onclick="UserMylike(1)" style="cursor: pointer;">我的点赞</li>
                     <li class="secondTitle" onclick="UserMycollection(1)" style="cursor: pointer;">我的收藏</li>
                     <li class="secondTitle" onclick="UserMyreport(1)" style="cursor: pointer;">我的举报</li>
+                    <li class="secondTitle" onclick="UserMydown(1)" style="cursor: pointer;">我的下载</li>
 
                 </ul>
             </nav>

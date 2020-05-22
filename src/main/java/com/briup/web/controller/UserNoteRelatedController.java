@@ -28,7 +28,6 @@ public class UserNoteRelatedController {
 			HttpSession session,HttpServletRequest request) {
 		User user = (User) session.getAttribute("user");
 		PageInfo<UserNoteRelated> userNoteRelated = service.findByUserNoteRelatedId(user.getId(),page);
-		saverPage saverPage = new saverPage();
 		Map<String, Integer> map = saverPage.StartAndEnd(userNoteRelated, page, 5);
 		session.setAttribute("start", map.get("start"));
 		session.setAttribute("end", map.get("end"));
@@ -52,7 +51,6 @@ public class UserNoteRelatedController {
 			HttpSession session,HttpServletRequest request) {
 		UserNoteRelated userNoteRelated = service.findByUserNoteId(id);
 		Timestamp date = userNoteRelated.getNoteDate();
-		dateTime dateTime = new dateTime();
 		String changeDate = dateTime.ChangeDate(date);
 		service.updateByNoteState(userNoteRelated.getId());
 		session.setAttribute("userNoteRelated", userNoteRelated);

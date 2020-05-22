@@ -1,6 +1,8 @@
 package com.briup.bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class User implements Serializable {
 	
@@ -12,6 +14,8 @@ public class User implements Serializable {
 	private String password;
 	private String image;
 	private String role;
+	private List<Article> articles = new ArrayList<Article>();
+	
 	public User() {
 	}
 	
@@ -70,10 +74,20 @@ public class User implements Serializable {
 	public void setRole(String role) {
 		this.role = role;
 	}
+	
+	public List<Article> getArticles() {
+		return articles;
+	}
+
+	public void setArticles(List<Article> articles) {
+		this.articles = articles;
+	}
+
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", nickname=" + nickname + ", account=" + account + ", password=" + password
-				+ ", image=" + image + ", role=" + role + "]";
+		return "User [id=" + id + ", nickname=" + nickname + ", account="
+				+ account + ", password=" + password + ", image=" + image
+				+ ", role=" + role + ", articles=" + articles + "]";
 	}
-	
+
 }

@@ -1,6 +1,6 @@
 package com.briup.service;
 
-import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,21 +23,18 @@ public class UserHistoryServiceImpl implements IUserHistoryService{
 	@Autowired
 	private UserHistoryDao dao;
 	
-	private dateTime date = new dateTime();
-	
 	@Override
 	public void addUserHistory(UserHistory userHistory) {
-		Timestamp nowDate = date.NowDate();
-		System.out.println("时间打印"+nowDate);
-		userHistory.setHistoryDate(nowDate);
+		System.out.println("时间打印"+dateTime.NowDate());
+		userHistory.setHistoryDate(dateTime.NowDate());
 		dao.addUserHistory(userHistory);
 		System.out.println("结束"+userHistory);
 	}
 
 	@Override
-	public JFreeChart findAllUserHistory(Integer uid) {
+	public JFreeChart findAllUserHistory(Integer uid,String date,String ndate) {
 	    // 获得数据
-	    CategoryDataset dataset = getDataSet(uid);
+	    CategoryDataset dataset = getDataSet(uid,date,ndate);
 	    // 获取柱状图工具类创建的柱状图，（将数据集传入）
 	    JFreeChart chart = columnarTools.createCoColumnar(dataset);
 	    return chart;
@@ -45,15 +42,22 @@ public class UserHistoryServiceImpl implements IUserHistoryService{
 
 	 //获取一个演示用的组合数据集对象 为柱状图添加数据
 
-	private CategoryDataset getDataSet(Integer uid) {
+	private CategoryDataset getDataSet(Integer uid,String date,String nextdate) {
 		Map<String,Integer> map = new HashMap<>();
 		List<UserHistory> list = dao.findAllUserHistory(uid);
 		for (UserHistory userHistory : list) {
-			String cname = userHistory.getCategory().getName();
-			if(map.keySet().contains(cname)) {
-				map.put(cname, map.get(cname)+1);
-			} else {
-				map.put(cname, 1);
+			try {
+				boolean time = dateTime.setTime(userHistory.getHistoryDate(), date, nextdate);
+				String cname = userHistory.getCategory().getName();
+				if(time) {
+					if(map.keySet().contains(cname)) {
+						map.put(cname, map.get(cname)+1);
+					} else {
+						map.put(cname, 1);
+					}
+				}
+			} catch (ParseException e) {
+				e.printStackTrace();
 			}
 		}
 	    // 数据可以从数据库中得到
@@ -63,6 +67,13 @@ public class UserHistoryServiceImpl implements IUserHistoryService{
 	    	dataset.addValue(map.get(key), "栏目", key);
 	    }
 	    return dataset;
+	}
+
+	@Override
+	public List<UserHistory> findHistory(Integer uid, Integer cid,
+			Integer aid) {
+		List<UserHistory> list = dao.findHistory(uid, cid, aid);
+		return list;
 	}
 
 }

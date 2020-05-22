@@ -38,7 +38,9 @@ function nodeDeail(id,page){
 	                    <p>${userNoteRelated.userNote.title }</p>
 	                </div>
 	                <div class="date">
-	                    <p>日期：${userNoteRelated.noteDate }</p>
+	                   <div class="datebox">
+		                    <p>日期：${userNoteRelated.noteDate }</p>
+	                   </div>
 	                </div>
 	            </div>
                 <div class="bu">

@@ -53,7 +53,7 @@
             <header class="text-center">
                 <!-- <div class="square"></div> -->
                 <h1>大学生资讯平台登录</h1>
-                <font style="color:red;">${msg }</font>
+                <font style="color:red;">${ms }</font>
             </header>
             <div style="color: red; font-size: 14px; margin-bottom: 10px;"
                 align="center"></div>

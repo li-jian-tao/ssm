@@ -1,21 +1,13 @@
 package com.briup.service;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.briup.bean.Article;
 import com.briup.bean.User;
-import com.briup.bean.UserCollection;
-import com.briup.bean.UserLike;
 import com.briup.bean.UserReport;
-import com.briup.dao.ArticleDao;
-import com.briup.dao.UserCollectionDao;
-import com.briup.dao.UserLikeDao;
 import com.briup.dao.UserReportDao;
 import com.briup.service.Impl.IUserReportService;
 import com.briup.util.dateTime;
@@ -27,14 +19,6 @@ public class UserReportServiceImpl implements IUserReportService{
 
 	@Autowired
 	private UserReportDao dao;
-	
-	@Autowired
-	private UserLikeDao likedao;
-	
-	@Autowired
-	private UserCollectionDao collectiondao;
-	
-	private dateTime date = new dateTime();
 	
 	@Override
 	public UserReport findByUserReport(Integer uid, Integer aid) {
@@ -48,9 +32,8 @@ public class UserReportServiceImpl implements IUserReportService{
 		for(int i=0;i<box.length;i++) {
 			boxes+=(box[i]+",");
 		}
-		Timestamp nowDate = date.NowDate();
-		System.out.println("时间打印"+nowDate);
-		userReport.setReportDate(nowDate);
+		System.out.println("时间打印"+dateTime.NowDate());
+		userReport.setReportDate(dateTime.NowDate());
 		userReport.setReportType(boxes);
 		dao.addUserReport(userReport);
 		System.out.println("结束"+userReport);
@@ -91,8 +74,7 @@ public class UserReportServiceImpl implements IUserReportService{
 
 	@Override
 	public void updateByProcess(UserReport userReport,Integer st) {
-		Timestamp nowDate = date.NowDate();
-		System.out.println("时间打印"+nowDate);	
+		System.out.println("时间打印"+dateTime.NowDate());	
 		if(st.equals(-2)) {			
 			userReport.setProcessContent("文章已成功处理");
 		} else if(st.equals(2)) {
@@ -101,7 +83,7 @@ public class UserReportServiceImpl implements IUserReportService{
 			userReport.setProcessContent("结果暂未处理");	
 		}
 		userReport.setState(1);
-		userReport.setProcessDate(nowDate);
+		userReport.setProcessDate(dateTime.NowDate());
 		dao.updateByProcess(userReport);
 	}
 

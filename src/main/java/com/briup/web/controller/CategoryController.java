@@ -43,7 +43,6 @@ public class CategoryController {
 			isSize = false;
 		}
 		PageInfo<Category> allCategory = service.allCategory(page);
-		saverPage saverPage = new saverPage();
 		Map<String, Integer> map = saverPage.StartAndEnd(allCategory, page, 5);
 		session.setAttribute("start", map.get("start"));
 		session.setAttribute("end", map.get("end"));
@@ -107,7 +106,6 @@ public class CategoryController {
 		}
 		List<Category> categoryParent = service.findByCategoryParent();
 		PageInfo<Category> allCategory = service.allCategory(1);
-		saverPage saverPage = new saverPage();
 		Map<String, Integer> map = saverPage.StartAndEnd(allCategory, 1, 5);
 		session.setAttribute("start", map.get("start"));
 		session.setAttribute("end", map.get("end"));
@@ -137,7 +135,6 @@ public class CategoryController {
 		service.updateByCategory(category);
 		List<Category> categoryParent = service.findByCategoryParent();
 		PageInfo<Category> allCategory = service.allCategory(1);
-		saverPage saverPage = new saverPage();
 		Map<String, Integer> map = saverPage.StartAndEnd(allCategory, 1, 5);
 		session.setAttribute("start", map.get("start"));
 		session.setAttribute("end", map.get("end"));

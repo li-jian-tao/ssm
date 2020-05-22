@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace命名空间，指向UserDao全路径 -->
+<mapper namespace="com.briup.dao.UserDownDao">
+
+    <!-- List<UserDown> findByUserDownId(Integer uid); -->
+    <select id="findByUserDownId" parameterType="java.lang.Integer" 
+            resultMap="rm">
+        select "user_down"."id","down_date","url","title","releaseDate"
+        from "user_down","article" 
+        where "user_down"."article_id"="article"."id"
+            and "user_down"."user_id"=#{uid}      
+    </select>
+    <resultMap type="com.briup.bean.UserDown" id="rm">
+        <id column="id" property="id" />
+        <result column="down_date" property="downDate" />
+        <result column="url" property="url" />
+        <result column="title" property="article.title"/>
+        <result column="releaseDate" property="article.releaseDate"/>
+    </resultMap>
+    
+    <!-- void addByUserDown(UserDown userDown); -->
+    <insert id="addByUserDown" parameterType="UserDown">
+        <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+            select down_sequence.nextval from dual
+        </selectKey>
+        insert into "user_down"("id","down_date","url","down_times","article_id","user_id")
+        values(#{id},#{downDate},#{url},#{downTimes},#{article.id},#{user.id})
+    </insert>
+    
+    <!-- void updateByClickTimes(Integer times,Integer state,Integer id); -->
+    <!-- <update id="updateByClickTimes" parameterType="java.lang.Integer">
+        update "article" 
+        <trim prefix="set" suffixOverrides=",">
+            <if test="times!=null">            
+                "clickTimes" = #{times,jdbcType=INTEGER},
+            </if>
+            <if test="state!=null">            
+                "state" = #{state,jdbcType=INTEGER},
+            </if>
+        </trim>
+        where "id" = #{id,jdbcType=INTEGER}
+    </update>
+    
+    void updateByReportNum(Integer num,Integer id);
+    <update id="updateByReportNum" parameterType="java.lang.Integer">
+        update "article"     
+        set "reportNum" = #{num,jdbcType=INTEGER}
+        where "id" = #{id,jdbcType=INTEGER}
+    </update> -->
+    
+    
+</mapper>

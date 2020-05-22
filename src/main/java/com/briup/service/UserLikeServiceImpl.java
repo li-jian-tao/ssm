@@ -1,6 +1,5 @@
 package com.briup.service;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +18,6 @@ public class UserLikeServiceImpl implements IUserLikeService{
 	@Autowired
 	private UserLikeDao dao;
 	
-	private dateTime date = new dateTime();
-	
 	@Override
 	public UserLike findByUserLike(Integer uid, Integer aid) {
 		UserLike userLike = dao.findByUserLike(uid, aid);
@@ -29,9 +26,8 @@ public class UserLikeServiceImpl implements IUserLikeService{
 	
 	@Override
 	public void addUserLike(UserLike userlike) {
-		Timestamp nowDate = date.NowDate();
-		System.out.println("时间打印"+nowDate);
-		userlike.setLikeDate(nowDate);
+		System.out.println("时间打印"+dateTime.NowDate());
+		userlike.setLikeDate(dateTime.NowDate());
 		userlike.setState(1);
 		dao.addUserLike(userlike);
 		System.out.println("结束"+userlike);
@@ -39,9 +35,8 @@ public class UserLikeServiceImpl implements IUserLikeService{
 
 	@Override
 	public void updateUserLike(UserLike userlike) {
-		Timestamp nowDate = date.NowDate();
-		System.out.println("时间打印"+nowDate);
-		userlike.setLikeDate(nowDate);
+		System.out.println("时间打印"+dateTime.NowDate());
+		userlike.setLikeDate(dateTime.NowDate());
 		dao.updateUserLike(userlike);
 		System.out.println("修改"+userlike);
 	}

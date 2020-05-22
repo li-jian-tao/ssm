@@ -25,14 +25,25 @@ function close1(page){
                 <p>发布时间： ${userNoteRelated.noteDate }</p>
             </div>
         </div>
-        <div class="content dcontent">
-            <p>尊敬的 ${userNoteRelated.user.nickname }，你好：</p>
-            <p style="text-indent:2em;">${userNoteRelated.userNote.content }</p>
-            <div style="float: right;width:250px;height: 80px;">
-	            <p>${userNoteRelated.other.nickname }</p>
-	            <p>日期：${changeDate }</p>
-            </div>
-        </div>
+        <c:if test="${userNoteRelated.user.nickname==null }">
+            <div class="content dcontent">
+	            ${userNoteRelated.userNote.content }
+	            <div style="float: right;width:250px;height: 80px;">
+                    <p>${userNoteRelated.other.nickname }</p>
+                    <p>日期：${changeDate }</p>
+                </div>
+	        </div>
+        </c:if>
+        <c:if test="${userNoteRelated.user.nickname!=null }">
+	        <div class="content dcontent">
+	            <p>尊敬的 ${userNoteRelated.user.nickname }，你好：</p>
+	            <p style="text-indent:2em;">${userNoteRelated.userNote.content }</p>
+	            <div style="float: right;width:250px;height: 80px;">
+		            <p>${userNoteRelated.other.nickname }</p>
+		            <p>日期：${changeDate }</p>
+	            </div>
+	        </div>
+	    </c:if>
     </div>
 </body>
 </html>

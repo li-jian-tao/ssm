@@ -1,6 +1,7 @@
 package com.briup.service.Impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -8,6 +9,7 @@ import com.briup.bean.Article;
 import com.github.pagehelper.PageInfo;
 
 public interface IArticleService {
+	public Map<Integer,List<Article>> allArticle(); 
 	public List<Article> findByHotArticle();
 	public List<Article> findByUserId(Integer uid);
 	public List<Article> findByCategoryId(Integer cid);

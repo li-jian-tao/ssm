@@ -21,7 +21,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         from "user_noterelated","user" u1,"user" u2,"user_note"
         where "user_noterelated"."usernote_id"="user_note"."id" 
             and "user_noterelated"."other_id"=u1."id"
-            and "user_noterelated"."user_id"=u2."id"
+            and ("user_noterelated"."user_id"=u2."id" or "user_noterelated"."user_id" is null)
             and u2."id"=#{uid}
     </select>
     <resultMap type="com.briup.bean.UserNoteRelated" id="erm">
@@ -52,7 +52,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         from "user_noterelated","user" u1,"user" u2,"user_note"
         where "user_noterelated"."usernote_id"="user_note"."id"
             and "user_noterelated"."other_id"=u1."id"
-            and "user_noterelated"."user_id"=u2."id"
+            and "user_noterelated"."user_id"=u2."id"(+)
             and "user_noterelated"."id"=#{id}
     </select>
     <resultMap type="com.briup.bean.UserNoteRelated" id="frm">
@@ -67,6 +67,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result column="onickname" property="other.nickname" />
         <result column="unickname" property="user.nickname" />
     </resultMap>
+
+    <!-- void addAllUserNoteRelatedPack(UserNoteRelated userNoteRelated); -->
+    <insert id="addAllUserNoteRelatedPack" parameterType="UserNoteRelated">
+        
+        <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+            select noterelated_sequence.nextval from dual
+        </selectKey>
+        insert into "user_noterelated"("id","note_date","note_state","usernote_id","other_id")
+        values(#{id},#{noteDate},#{state},#{userNote.id},#{other.id})
+    </insert>
 
     <!-- void addByUserNoteRelatedPack(UserNoteRelated userNoteRelated); -->
     <insert id="addByUserNoteRelatedPack" parameterType="UserNoteRelated">

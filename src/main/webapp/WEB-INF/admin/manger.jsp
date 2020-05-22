@@ -6,6 +6,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript">
+var getSNum = sessionStorage.getItem("sNum");
+if($('.secondTitle').eq(getSNum).text().trim()=="我的发布"){
+    $(".showUserinfo").load('showUserArticles?id=1');
+}
+</script>
 </head>
 <body>
 <div class="templatemo-content col-1 white-bg">

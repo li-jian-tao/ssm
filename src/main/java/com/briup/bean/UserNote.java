@@ -12,9 +12,7 @@ public class UserNote implements Serializable {
 	
 	public UserNote() {
 	}
-	public UserNote(Integer id, String title, String content) {
-		super();
-		this.id = id;
+	public UserNote(String title, String content) {
 		this.title = title;
 		this.content = content;
 	}

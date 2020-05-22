@@ -1,6 +1,7 @@
 package com.briup.web.controller;
 
 import java.io.File;
+import java.sql.Timestamp;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.briup.bean.User;
 import com.briup.service.Impl.IUserHistoryService;
 import com.briup.util.columnarTools;
+import com.briup.util.dateTime;
 
 @Controller
 public class UserHistoryController {
@@ -24,7 +26,7 @@ public class UserHistoryController {
 	private IUserHistoryService service;
 	
 	@RequestMapping("showUserHistory")
-	public String getColumnChart(
+	public String getColumnChart(String date,
 			HttpSession session,HttpServletRequest request) throws Exception {
 		User user = (User) session.getAttribute("user");
 		String filename = "user"+user.getId();
@@ -38,8 +40,14 @@ public class UserHistoryController {
 				}
 			}
 		}
-	    JFreeChart chart = service.findAllUserHistory(user.getId());
+		int ndate = Integer.parseInt(date.split("-")[1])+1;
+		System.out.println("sdhjshdja"+ndate);
+		String nextdate = date.split("-")[0]+"-"+ndate;
+	    JFreeChart chart = service.findAllUserHistory(user.getId(),date,nextdate);
 	    columnarTools.saveAsFile(chart, path+"\\"+filename+".png", 700, 400);
+	    session.setAttribute("before", dateTime.ChangeMonth(0));
+	    session.setAttribute("center", dateTime.ChangeMonth(1));
+	    session.setAttribute("after", dateTime.ChangeMonth(2));
 	    session.setAttribute("chartURL", filename+".png");
 		return "user/myhistory";		
 	}

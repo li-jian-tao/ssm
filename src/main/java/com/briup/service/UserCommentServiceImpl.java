@@ -1,6 +1,5 @@
 package com.briup.service;
 
-import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.List;
 
@@ -18,14 +17,11 @@ public class UserCommentServiceImpl implements IUserCommentService{
 	
 	@Autowired
 	private UserCommentDao dao;
-	
-	private dateTime date = new dateTime();
 
 	@Override
 	public void addUserComment(UserComment userComment) {
-		Timestamp nowDate = date.NowDate();
-		System.out.println("时间打印"+nowDate);		
-		userComment.setCommentDate(nowDate);
+		System.out.println("时间打印"+dateTime.NowDate());		
+		userComment.setCommentDate(dateTime.NowDate());
 		userComment.setCommentTimes(0);
 		dao.addUserComment(userComment);
 		System.out.println("结束"+userComment);
